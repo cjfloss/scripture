@@ -1,3 +1,2 @@
-# biblenow
-Bible app
+# BibleNow
 A Bible app for elementary OS
