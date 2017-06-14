@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Bible
+GenericName=Bible reading app
+Comment=Read Bible on your desktop wherever you are
+Categories=GTK;Utility;
+Exec=biblenow
+Icon=application-default-icon
+Terminal=false
+Type=Application
+X-GNOME-Gettext-Domain=biblenow
+Keywords=Bible;Reading;Word;God;Christian;Book
