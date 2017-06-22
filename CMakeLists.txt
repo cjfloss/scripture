@@ -16,7 +16,13 @@ set (VERSION_INFO "just testing")
 
 find_package(PkgConfig)
 
-pkg_check_modules(DEPS REQUIRED gtk+-3.0 granite webkit2gtk-4.0)
+pkg_check_modules(DEPS REQUIRED
+                  gtk+-3.0
+                  gee-0.8
+                  granite
+                  webkit2gtk-4.0>=2.14.1
+                  sqlite3>=3.5.9
+                 )
 
 add_definitions(${DEPS_CFLAGS})
 link_libraries(${DEPS_LIBRARIES})
@@ -37,12 +43,20 @@ vala_precompile(VALA_C ${EXEC_NAME}
    src/Widgets/Styles/View.vala
    src/Widgets/Styles/App.vala
    src/Model/Verse.vala
+   src/Model/Bible.vala
+   src/Model/Language.vala
+   src/Model/Book.vala
+   src/Model/BookPrototype.vala
+   src/Model/QueryBuilder.vala
+   src/Model/Transaction.vala
+   src/Model/Database.vala
 
 PACKAGES
    gtk+-3.0
    gee-0.8
    granite
-   webkit2gtk-4.0
+   webkit2gtk-4.0>=2.14.1
+   sqlite3
 )
 
 add_executable(${EXEC_NAME} ${VALA_C})
@@ -50,3 +64,5 @@ add_executable(${EXEC_NAME} ${VALA_C})
 install (TARGETS ${EXEC_NAME} RUNTIME DESTINATION bin)
 
 install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/biblenow.desktop DESTINATION ${DATADIR}/applications/)
+install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/icons/48/biblenow.svg DESTINATION share/icons/hicolor/48x48/apps)
+install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/icons/64/biblenow.svg DESTINATION share/icons/hicolor/64x64/apps)

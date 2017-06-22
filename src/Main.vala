@@ -28,6 +28,17 @@ public class BibleNow.Application : Granite.Application {
     }
 
     public static int main (string[] args) {
+
+        string conf_dir = GLib.Environment.get_user_config_dir ()+"/biblenow";
+        if(!FileUtils.test (conf_dir, FileTest.IS_DIR)){
+            try {
+        		File file = File.new_for_path (GLib.Environment.get_user_config_dir ()+"/biblenow");
+        		file.make_directory ();
+        	} catch (Error e) {
+        		stdout.printf ("Unable to create conf dir. Error: %s\n", e.message);
+        	}
+        }
+
         var app = new BibleNow.Application ();
         return app.run (args);
     }

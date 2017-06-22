@@ -21,6 +21,8 @@ namespace BibleNow.Entities {
         public string content;
         public bool paragraph_end;
 
+        private const string table = "verse";
+
         public Verse (int number, string content) {
             this.number = number;
             this.content = content;

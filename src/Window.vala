@@ -15,6 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+using Gee;
+using BibleNow.Utils;
+using BibleNow.Entities;
+
 public class BibleNow.Window : Gtk.ApplicationWindow {
 
     private Granite.Application app;
@@ -27,6 +31,7 @@ public class BibleNow.Window : Gtk.ApplicationWindow {
     }
 
     construct {
+
         var hb = new Gtk.HeaderBar ();
         hb.set_show_close_button (true);
         this.set_titlebar (hb);
@@ -52,6 +57,19 @@ public class BibleNow.Window : Gtk.ApplicationWindow {
         hb.pack_end (appMenu);
         hb.pack_end (searchField);
 
+        Language lang = new Language.create ("English");
+        Bible bible = new Bible.create ("King James Version", lang);
+        BookPrototype gen_prototype = new BookPrototype.create("Genesis", 1);
+        BookPrototype ex_prototype = new BookPrototype.create("Exodus", 2);
+        BookPrototype lv_prototype = new BookPrototype.create("Leviticus", 3);
+        Book genesis = new Book.create ("Genesis", gen_prototype, bible);
+        Book exodus = new Book.create ("Exodus", ex_prototype, bible);
+        Book leviticus = new Book.create ("Leviticus", lv_prototype, bible);
+
+        ArrayList<Book> books = Book.selectAll ();
+        foreach (Book book in books) {
+            stdout.printf("id: %i, name: %s, bible: %s (%s), prototype: %s (%i)\n", book.id, book.name, book.bible.name, book.bible.language.name, book.prototype.name, book.prototype.order);
+        }
 
         /* Example text view */
 
