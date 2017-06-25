@@ -44,7 +44,7 @@ namespace BibleNow.Utils {
             stmt.bind_int (param_position, id);
         }
 
-        public Query.selectWhereEquals (string table, ArrayList<Condition> conditions) { //BibleNow.Utils.Database db
+        public Query.selectWhereEquals (string table, ArrayList<Condition> conditions, string subject = "*") { //BibleNow.Utils.Database db
             string where = "";
             foreach (Condition c in conditions) {
                 where += c.get_condition() + " AND ";
@@ -53,7 +53,7 @@ namespace BibleNow.Utils {
                 where = where[0:where.length - 5];
             }
             StringBuilder builder = new StringBuilder ();
-            builder.printf("SELECT * FROM %s WHERE %s", table, where);
+            builder.printf("SELECT %s FROM %s WHERE %s", subject, table, where);
             query = builder.str;
             foreach (Condition c in conditions) {
                 int param_position = stmt.bind_parameter_index (c.get_param ());

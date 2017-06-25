@@ -104,6 +104,18 @@ namespace BibleNow.Entities {
             }
         }
 
+        public int getChapterCount () {
+            ArrayList<Condition> where = new ArrayList<Condition> ();
+            where.add (new Condition.withInt ("book_id", id));
+            var query = new Query.selectWhereEquals ("chapter", where, "MAX(number)");
+            var results = query.execute ();
+            if (results.size > 0) {
+                return int.parse(results[0][0]);
+            } else {
+                return 0;
+            }
+        }
+
         public static ArrayList<Book> selectAll () {
             var query = new BibleNow.Utils.Query.selectAll(TABLE);
             ArrayList<Book> books = new ArrayList<Book>();

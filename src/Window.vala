@@ -32,6 +32,37 @@ public class BibleNow.Window : Gtk.ApplicationWindow {
 
     construct {
 
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
+       //           Testing model            /////////////////////////////////////////////////////////////
+      ///////////////////////////////////////////////////////////////////////////////////////////////////
+      ////
+      /**/    Language lang = new Language.create ("English");
+      /**/    Bible bible = new Bible.create ("King James Version", lang);
+      /**/    BookPrototype gen_prototype = new BookPrototype.create("Genesis", 1);
+      /**/    BookPrototype ex_prototype = new BookPrototype.create("Exodus", 2);
+      /**/    BookPrototype lv_prototype = new BookPrototype.create("Leviticus", 3);
+      /**/    Book genesis = new Book.create ("Genesis", gen_prototype, bible);
+      /**/    Book exodus = new Book.create ("Exodus", ex_prototype, bible);
+      /**/    Book leviticus = new Book.create ("Leviticus", lv_prototype, bible);
+      /**/    Chapter chapter1 = new Chapter.create (1, genesis);
+      /**/    Verse v1 = new Verse.create (1, "In the beginning god created the heaven and the earth.", chapter1);
+      /**/    Verse v2 = new Verse.create (2, "Země pak byla pustá a prázdná a nad vodami se vznášel Duch Boží.", chapter1);
+      /**/    Verse v3 = new Verse.create (3, "I řekl Bůh: \"Budiž světlo.\" a bylo světlo.", chapter1);
+      /**/
+      /**/    Chapter chapter2 = new Chapter.create (2, genesis);
+      /**/    Verse v4 = new Verse.create (1, "Tohle je druhá. Na počátku stvořil Bůh nebe a zemi.", chapter2);
+      /**/    Verse v5 = new Verse.create (2, "Země pak byla pustá a prázdná a nad vodami se vznášel Duch Boží.", chapter2);
+      /**/    Verse v6 = new Verse.create (3, "I řekl Bůh: \"Budiž světlo.\" a bylo světlo.", chapter2);
+      /**/
+      /**/    ArrayList<Book> books = bible.getBooks ();
+      /**/
+      /**/    Chapter c = new Chapter.selectByBookAndNum (genesis, 2);
+      /**/    ArrayList<Verse> verses = c.getVerses ();
+      /**/
+//      \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+//        \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+//          \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
         var hb = new Gtk.HeaderBar ();
         hb.set_show_close_button (true);
         this.set_titlebar (hb);
@@ -39,6 +70,7 @@ public class BibleNow.Window : Gtk.ApplicationWindow {
         /* Create book and chapter switcher */
 
         var bookSelect = new BibleNow.Widgets.BookSelect ();
+        bookSelect.books = books;
         var chapterSelect = new BibleNow.Widgets.ChapterSelect ();
 
         var buttonGrid = new Gtk.Grid ();
@@ -56,50 +88,6 @@ public class BibleNow.Window : Gtk.ApplicationWindow {
         hb.pack_start (buttonGrid);
         hb.pack_end (appMenu);
         hb.pack_end (searchField);
-
-        Language lang = new Language.create ("English");
-        Bible bible = new Bible.create ("King James Version", lang);
-        BookPrototype gen_prototype = new BookPrototype.create("Genesis", 1);
-        BookPrototype ex_prototype = new BookPrototype.create("Exodus", 2);
-        BookPrototype lv_prototype = new BookPrototype.create("Leviticus", 3);
-        Book genesis = new Book.create ("Genesis", gen_prototype, bible);
-        Book exodus = new Book.create ("Exodus", ex_prototype, bible);
-        Book leviticus = new Book.create ("Leviticus", lv_prototype, bible);
-
-        ArrayList<Book> books = Book.selectAll ();
-        foreach (Book book in books) {
-            stdout.printf("id: %i, name: %s, bible: %s (%s), prototype: %s (%i)\n", book.id, book.name, book.bible.name, book.bible.language.name, book.prototype.name, book.prototype.order);
-        }
-
-        /* Example text view */
-
-        var verses = new Gee.ArrayList<BibleNow.Entities.Verse>();
-        verses.add(new BibleNow.Entities.Verse(1, "Na počátku stvořil Bůh nebe a zemi."));
-        verses.add(new BibleNow.Entities.Verse(2, "Země pak byla pustá a prázdná a nad vodami se vznášel Duch Boží."));
-        verses.add(new BibleNow.Entities.Verse(3, "I řekl Bůh: \"Budiž světlo.\" a bylo světlo."));
-        verses.add(new BibleNow.Entities.Verse(4, "Byl večer a bylo ráno den první."));
-        verses.add(new BibleNow.Entities.Verse(5, "Na počátku stvořil Bůh nebe a zemi."));
-        verses.add(new BibleNow.Entities.Verse(6, "Země pak byla pustá a prázdná a nad vodami se vznášel Duch Boží."));
-        verses.add(new BibleNow.Entities.Verse(7, "I řekl Bůh: \"Budiž světlo.\" a bylo světlo."));
-        var v = new BibleNow.Entities.Verse(8, "Byl večer a bylo ráno den první.");
-        v.paragraph_end = true;
-        verses.add(v);
-        verses.add(new BibleNow.Entities.Verse(9, "Na počátku stvořil Bůh nebe a zemi."));
-        verses.add(new BibleNow.Entities.Verse(10, "Země pak byla pustá a prázdná a nad vodami se vznášel Duch Boží."));
-        verses.add(new BibleNow.Entities.Verse(11, "I řekl Bůh: \"Budiž světlo.\" a bylo světlo."));
-        verses.add(new BibleNow.Entities.Verse(12, "Byl večer a bylo ráno den první."));
-        verses.add(new BibleNow.Entities.Verse(13, "Na počátku stvořil Bůh nebe a zemi."));
-        verses.add(new BibleNow.Entities.Verse(14, "Země pak byla pustá a prázdná a nad vodami se vznášel Duch Boží."));
-        verses.add(new BibleNow.Entities.Verse(15, "I řekl Bůh: \"Budiž světlo.\" a bylo světlo."));
-        verses.add(new BibleNow.Entities.Verse(16, "Byl večer a bylo ráno den první."));
-        verses.add(new BibleNow.Entities.Verse(17, "Na počátku stvořil Bůh nebe a zemi."));
-        verses.add(new BibleNow.Entities.Verse(18, "Země pak byla pustá a prázdná a nad vodami se vznášel Duch Boží."));
-        verses.add(new BibleNow.Entities.Verse(19, "I řekl Bůh: \"Budiž světlo.\" a bylo světlo."));
-        verses.add(new BibleNow.Entities.Verse(20, "Byl večer a bylo ráno den první."));
-        verses.add(new BibleNow.Entities.Verse(21, "Na počátku stvořil Bůh nebe a zemi."));
-        verses.add(new BibleNow.Entities.Verse(22, "Země pak byla pustá a prázdná a nad vodami se vznášel Duch Boží."));
-        verses.add(new BibleNow.Entities.Verse(23, "I řekl Bůh: \"Budiž světlo.\" a bylo světlo."));
-        verses.add(new BibleNow.Entities.Verse(24, "Byl večer a bylo ráno den první."));
 
         //var textview = new BibleNow.Widgets.ReadView ();
         //textview.content = verses;

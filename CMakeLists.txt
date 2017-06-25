@@ -43,6 +43,7 @@ vala_precompile(VALA_C ${EXEC_NAME}
    src/Widgets/Styles/View.vala
    src/Widgets/Styles/App.vala
    src/Model/Verse.vala
+   src/Model/Chapter.vala
    src/Model/Bible.vala
    src/Model/Language.vala
    src/Model/Book.vala
