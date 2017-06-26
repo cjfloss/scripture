@@ -19,31 +19,55 @@ namespace BibleNow.Widgets {
 
     public class ChapterSelect : Gtk.ToggleButton {
 
-        public signal void value_updated (int val);
+        public signal void selection (int val);
 
-        private int _selection;
         public ChapterSelectPopover popover;
-
-        public int selection {
+        private bool _empty;
+        private bool empty {
             set {
-                _selection = value;
-                this.set_label (_selection.to_string());
+                _empty = value;
+                if(value){
+                    set_label ("-");
+                    set_sensitive (false);
+                } else {
+                    set_sensitive (true);
+                }
             }
-            get { return _selection; }
+            get{
+                return _empty;
+            }
+        }
+        private int _selected_num;
+        public int selected_num {
+            set {
+                _selected_num = value;
+                selection (value);
+                this.set_label (_selected_num.to_string());
+            }
+            get { return _selected_num; }
         }
 
         public ChapterSelect () {
 
-            selection = 1;
             popover = new BibleNow.Widgets.ChapterSelectPopover (this);
             get_style_context ().add_class ("chapter-select-button");
             bind_property ("active", popover, "visible", GLib.BindingFlags.BIDIRECTIONAL);
-            popover.max = 37;
+            empty = true;
 
-            this.value_updated.connect ((v) => {
-                selection = v;
+            this.selection.connect (() => {
                 this.set_active (false);
             });
+        }
+
+        public void set_chapters (int num) {
+            if (num > 0){
+                empty = false;
+                popover.max = num;
+                selected_num = 1;
+            } else {
+                empty = true;
+            }
+
         }
     }
 
@@ -52,8 +76,8 @@ namespace BibleNow.Widgets {
         private Gtk.ScrolledWindow scroll;
         private Gtk.Grid grid;
         private int _max;
-        private int max_rows = 8;
-        private int row = 35;
+        private int rows_limit = 8;
+        private int row_height = 35;
         private ChapterSelect btn;
 
         public int max {
@@ -77,7 +101,7 @@ namespace BibleNow.Widgets {
             scroll.vscrollbar_policy = Gtk.PolicyType.AUTOMATIC;
             scroll.margin_top = scroll.margin_bottom = 10;
             grid = new Gtk.Grid ();
-            max = 39;
+            max = 0;
 
             grid.margin_start = grid.margin_end = 12;
             scroll.add (grid);
@@ -91,13 +115,13 @@ namespace BibleNow.Widgets {
         }
 
         private int countHeight (int max) {
-            double maxf = (double) max;
-            int rows = (int) (maxf / 5.0);
-            int output = ((rows+1) * row);
-            if (output <= (max_rows*row)){
+            double maxd = (double) max;
+            int rows = (int) Math.ceil (maxd / 5.0);
+            int output = rows * row_height;
+            if (output <= (rows_limit*row_height)){
                 return output;
             } else {
-                return max_rows*row+15;
+                return rows_limit*row_height+15;
             }
         }
 
@@ -112,7 +136,7 @@ namespace BibleNow.Widgets {
                     var option = new ChapterSelectItem (num);
                     grid.attach (option, j, i);
                     option.item_selected.connect ((n) => {
-                        this.btn.value_updated (n);
+                        this.btn.selected_num = n;
                     });
                 }
             }

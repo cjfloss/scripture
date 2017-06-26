@@ -25,7 +25,7 @@ pkg_check_modules(DEPS REQUIRED
                  )
 
 add_definitions(${DEPS_CFLAGS})
-link_libraries(${DEPS_LIBRARIES})
+link_libraries(${DEPS_LIBRARIES} -lm)
 link_directories(${DEPS_LIBRARY_DIRS})
 
 find_package(Vala REQUIRED)
@@ -38,10 +38,11 @@ vala_precompile(VALA_C ${EXEC_NAME}
    src/Window.vala
    src/Widgets/ChapterSelect.vala
    src/Widgets/BookSelect.vala
-   src/Widgets/BibleReadView.vala
-   src/Widgets/ParallelView.vala
+   src/Widgets/BibleSelect.vala
+   src/Widgets/ReadingArea.vala
    src/Widgets/Styles/View.vala
    src/Widgets/Styles/App.vala
+   src/Views/ParallelView.vala
    src/Model/Verse.vala
    src/Model/Chapter.vala
    src/Model/Bible.vala

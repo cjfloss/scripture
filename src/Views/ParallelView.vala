@@ -15,39 +15,46 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BibleNow.Widgets {
+namespace BibleNow.Views {
 
     using BibleNow.Entities;
+    using BibleNow.Widgets;
     using Gee;
 
     public class ParallelView : Gtk.Paned {
 
-        public BibleReadView readview1;
-        public BibleReadView readview2;
+        public ReadingArea readingArea1;
+        public ReadingArea readingArea2;
+        public BibleSelect bibleSelect1;
+        public BibleSelect bibleSelect2;
 
-        public ParallelView () {
-            Object(orientation: Gtk.Orientation.HORIZONTAL);
-            readview1 = new BibleNow.Widgets.BibleReadView ();
-            readview2 = new BibleNow.Widgets.BibleReadView ();
+        construct {
+            readingArea1 = new ReadingArea ();
+            readingArea2 = new ReadingArea ();
             var box1 = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             var box2 = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-            var toolbar1 = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-            var toolbar2 = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+            var toolbar1 = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+            var toolbar2 = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+            toolbar1.get_style_context ().add_class ("parallelview-toolbar");
+            toolbar2.get_style_context ().add_class ("parallelview-toolbar");
 
-            var combo1 = new Gtk.ComboBox ();
-            var combo2 = new Gtk.ComboBox ();
-            combo1.margin = combo2.margin = 7;
-            combo1.vexpand = combo2.vexpand = false;
+            bibleSelect1 = new BibleSelect ();
+            bibleSelect2 = new BibleSelect ();
+            bibleSelect1.margin = bibleSelect2.margin = 7;
 
-            toolbar1.pack_start (combo1, false, false, 0);
-            toolbar2.pack_start (combo2, false, false, 0);
+            toolbar1.set_center_widget (bibleSelect1);
+            toolbar2.set_center_widget (bibleSelect2);
 
             box1.pack_start(toolbar1, false, false);
             box2.pack_start(toolbar2, false, false);
-            box1.pack_start(readview1);
-            box2.pack_start(readview2);
+            box1.pack_start(readingArea1);
+            box2.pack_start(readingArea2);
             pack1(box1, true, false);
             pack2(box2, true, false);
+        }
+
+        public ParallelView () {
+            Object(orientation: Gtk.Orientation.HORIZONTAL);
         }
     }
 }

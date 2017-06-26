@@ -20,7 +20,7 @@ namespace BibleNow.Widgets {
     using BibleNow.Entities;
     using Gee;
 
-    public class BibleReadView : WebKit.WebView {
+    public class ReadingArea : WebKit.WebView {
 
         private string content_string;
         private ArrayList<Verse> _content;
@@ -54,7 +54,7 @@ namespace BibleNow.Widgets {
             set { _set_theme (value); }
         }
 
-        public BibleReadView () {
+        public ReadingArea () {
             Object(user_content_manager: new WebKit.UserContentManager ());
             load_template ();
             load_defaults ();
@@ -69,6 +69,7 @@ namespace BibleNow.Widgets {
             num_mode = NumMode.NONE;
             font_size = 16;
             width_request = 250;
+            height_request = 200;
         }
 
         private void load_template () {

@@ -70,7 +70,6 @@ public class BibleNow.Window : Gtk.ApplicationWindow {
         /* Create book and chapter switcher */
 
         var bookSelect = new BibleNow.Widgets.BookSelect ();
-        bookSelect.books = books;
         var chapterSelect = new BibleNow.Widgets.ChapterSelect ();
 
         var buttonGrid = new Gtk.Grid ();
@@ -92,9 +91,9 @@ public class BibleNow.Window : Gtk.ApplicationWindow {
         //var textview = new BibleNow.Widgets.ReadView ();
         //textview.content = verses;
 
-        var readview = new BibleNow.Widgets.ParallelView ();
-        readview.readview1.content = verses;
-        readview.readview2.content = verses;
+        var readview = new BibleNow.Views.ParallelView ();
+        readview.readingArea1.content = verses;
+        readview.readingArea2.content = verses;
 
         this.add(readview);
     }

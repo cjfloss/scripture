@@ -72,6 +72,15 @@ namespace BibleNow {
     .chapter-select-button > * {
         padding: 3px 8px;
     }
-
+    .parallelview-toolbar {
+        background-color: rgb(255,255,255);
+        border-bottom: 1px solid #bbb;
+    }
+    .parallelview-toolbar > * {
+        padding: 7px;
+    }
+    .bible-select-item {
+        padding: 7px;
+    }
     """;
 }

@@ -23,7 +23,6 @@ namespace BibleNow.Widgets {
     public class BookSelect : Gtk.ToggleButton {
 
         public signal void selection (BookPrototype prototype);
-
         private BookSelectPopover popover;
         public bool local_names = false;
         private ArrayList<Book> _books;
@@ -34,6 +33,12 @@ namespace BibleNow.Widgets {
                 _books = value;
                 prototype_mode = false;
                 popover.set_books (value);
+                if(value.size > 0){
+                    selected_book = value[0];
+                    empty = false;
+                } else {
+                    empty = true;
+                }
             }
             get {
                 return _books;
@@ -44,6 +49,12 @@ namespace BibleNow.Widgets {
                 _prototypes = value;
                 prototype_mode = true;
                 popover.set_prototypes (value);
+                if(value.size > 0){
+                    selected_prototype = value[0];
+                    empty = false;
+                } else {
+                    empty = true;
+                }
             }
             get {
                 return _prototypes;
@@ -71,11 +82,27 @@ namespace BibleNow.Widgets {
             }
             get { return _selected_book; }
         }
+        private bool _empty;
+        private bool empty {
+            set {
+                _empty = value;
+                if(value){
+                    set_label ("No books");
+                    set_sensitive (false);
+                } else {
+                    set_sensitive (true);
+                }
+            }
+            get{
+                return _empty;
+            }
+        }
 
         construct {
             get_style_context ().add_class ("book-select-button");
             popover = new BibleNow.Widgets.BookSelectPopover (this);
             bind_property ("active", popover, "visible", GLib.BindingFlags.BIDIRECTIONAL);
+            empty = true;
         }
 
         public BookSelect () {
@@ -87,10 +114,6 @@ namespace BibleNow.Widgets {
                 selected_book = book;
                 this.set_active (false);
             });
-        }
-
-        private void select_first_prototype (BookPrototype prototype) {
-
         }
     }
 
