@@ -22,7 +22,7 @@ namespace BibleNow.Entities {
 
     public class Language {
 
-        private const string TABLE = "lang";
+        public const string TABLE = "lang";
         public int id;
         public string name;
 

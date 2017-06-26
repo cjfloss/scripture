@@ -40,7 +40,7 @@ namespace BibleNow.Entities {
             }
         }
 
-        private const string TABLE = "verse";
+        public const string TABLE = "verse";
 
         public Verse.create (int num, string content, Chapter chapter, bool paragraph_end = false, InsertQuery query = new InsertQuery (TABLE)) {
             this.number = num;

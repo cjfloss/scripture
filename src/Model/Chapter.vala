@@ -22,7 +22,7 @@ namespace BibleNow.Entities {
 
     public class Chapter {
 
-        private const string TABLE = "chapter";
+        public const string TABLE = "chapter";
         public int id;
         public int number;
 

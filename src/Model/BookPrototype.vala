@@ -22,7 +22,7 @@ namespace BibleNow.Entities {
 
     public class BookPrototype {
 
-        private const string TABLE = "prototype";
+        public const string TABLE = "prototype";
         public int id;
         public int order;
         public string name;

@@ -24,7 +24,7 @@ namespace BibleNow.Entities {
 
         public BibleNow.Utils.Transaction transaction;
 
-        private const string TABLE = "book";
+        public const string TABLE = "book";
         public int id;
         public string name;
         private int prototype_id;
