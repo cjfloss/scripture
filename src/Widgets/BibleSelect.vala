@@ -55,7 +55,7 @@ namespace BibleNow.Widgets {
             set {
                 _empty = value;
                 if(value){
-                    set_label ("No bibles");
+                    set_label ("No translations");
                     set_sensitive (false);
                 } else {
                     set_sensitive (true);
