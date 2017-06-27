@@ -57,50 +57,8 @@ namespace BibleNow.Utils {
                 stderr.printf("Err: Database file not created!\n");
             }
 
-            string query = """
-                DROP TABLE IF EXISTS lang;
-                DROP TABLE IF EXISTS bible;
-                DROP TABLE IF EXISTS book;
-                DROP TABLE IF EXISTS prototype;
-                DROP TABLE IF EXISTS chapter;
-                DROP TABLE IF EXISTS verse;
-
-                CREATE TABLE lang (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    name TEXT NOT NULL
-                );
-                CREATE TABLE bible (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    name TEXT NOT NULL,
-                    lang_id INT NOT NULL
-                );
-                CREATE TABLE book (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    name TEXT NOT NULL,
-                    prototype_id INT NOT NULL,
-                    bible_id INT NOT NULL
-                );
-                CREATE TABLE prototype (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    name TEXT NOT NULL,
-                    ord INT NOT NULL
-                );
-                CREATE TABLE chapter (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    number INT NOT NULL,
-                    book_id INT NOT NULL
-                );
-                CREATE TABLE verse (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    number INT NOT NULL,
-                    content TEXT NOT NULL,
-                    chapter_id INT NOT NULL,
-                    paragraph_end BOOLEAN DEFAULT 0
-                );
-        	""";
-            stdout.printf("Execution attemp: %s\n", query);
             string errmsg;
-        	int ec = connection.exec (query, null, out errmsg);
+        	int ec = connection.exec (DB_CREATE, null, out errmsg);
         	if (ec != Sqlite.OK) {
         		stderr.printf ("Create error: %s\n", errmsg);
         	}

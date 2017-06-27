@@ -63,5 +63,21 @@ namespace BibleNow.Entities {
             }
         }
 
+        public BookPrototype.withParams (int id, string name, int order) {
+            this.id = id;
+            this.name = name;
+            this.order = order;
+        }
+
+        public static ArrayList<BookPrototype> selectAll () {
+            var query = new Query.selectAll(TABLE);
+            ArrayList<BookPrototype> prototypes = new ArrayList<BookPrototype>();
+            ArrayList<ArrayList<string>> results = query.execute ();
+            foreach (ArrayList<string> row in results) {
+                prototypes.add(new BookPrototype.withParams(int.parse(row[0]), row[1], int.parse(row[2])));
+            }
+            return prototypes;
+        }
+
     }
 }

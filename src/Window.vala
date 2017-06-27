@@ -38,9 +38,9 @@ public class BibleNow.Window : Gtk.ApplicationWindow {
       ////
       /**/    Language lang = new Language.create ("English");
       /**/    Bible bible = new Bible.create ("King James Version", lang);
-      /**/    BookPrototype gen_prototype = new BookPrototype.create("Genesis", 1);
-      /**/    BookPrototype ex_prototype = new BookPrototype.create("Exodus", 2);
-      /**/    BookPrototype lv_prototype = new BookPrototype.create("Leviticus", 3);
+      /**/    BookPrototype gen_prototype = new BookPrototype.selectById (1);
+      /**/    BookPrototype ex_prototype = new BookPrototype.selectById (2);
+      /**/    BookPrototype lv_prototype = new BookPrototype.selectById (3);
       /**/    Book genesis = new Book.create ("Genesis", gen_prototype, bible);
       /**/    Book exodus = new Book.create ("Exodus", ex_prototype, bible);
       /**/    Book leviticus = new Book.create ("Leviticus", lv_prototype, bible);
@@ -70,6 +70,7 @@ public class BibleNow.Window : Gtk.ApplicationWindow {
         /* Create book and chapter switcher */
 
         var bookSelect = new BibleNow.Widgets.BookSelect ();
+        bookSelect.prototypes = BookPrototype.selectAll ();
         var chapterSelect = new BibleNow.Widgets.ChapterSelect ();
 
         var buttonGrid = new Gtk.Grid ();
@@ -87,9 +88,6 @@ public class BibleNow.Window : Gtk.ApplicationWindow {
         hb.pack_start (buttonGrid);
         hb.pack_end (appMenu);
         hb.pack_end (searchField);
-
-        //var textview = new BibleNow.Widgets.ReadView ();
-        //textview.content = verses;
 
         var readview = new BibleNow.Views.ParallelView ();
         readview.readingArea1.content = verses;

@@ -29,11 +29,9 @@ link_libraries(${DEPS_LIBRARIES} -lm)
 link_directories(${DEPS_LIBRARY_DIRS})
 
 find_package(Vala REQUIRED)
-include(ValaVersion)
-ensure_vala_version("0.16" MINIMUM)
+include(${VALA_USE_FILE})
 
-include(ValaPrecompile)
-vala_precompile(VALA_C ${EXEC_NAME}
+vala_precompile(VALA_C
    src/Main.vala
    src/Window.vala
    src/Widgets/ChapterSelect.vala
@@ -49,15 +47,16 @@ vala_precompile(VALA_C ${EXEC_NAME}
    src/Model/Language.vala
    src/Model/Book.vala
    src/Model/BookPrototype.vala
-   src/Model/QueryBuilder.vala
-   src/Model/Transaction.vala
-   src/Model/Database.vala
+   src/Model/Database/QueryBuilder.vala
+   src/Model/Database/Transaction.vala
+   src/Model/Database/Database.vala
+   src/Model/Database/Create.vala
 
 PACKAGES
    gtk+-3.0
    gee-0.8
    granite
-   webkit2gtk-4.0>=2.14.1
+   webkit2gtk-4.0
    sqlite3
 )
 
