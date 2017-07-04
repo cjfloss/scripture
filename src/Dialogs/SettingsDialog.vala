@@ -15,29 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
- namespace BibleNow.Controllers {
-
-     public class BookController {
-
-         public int current_bible = 1;
-         public int parallel_mode = false;
-
-         private static ArrayList<Book> get_book_list () {
-             if (parallel_mode) {
-                 ArrayList<BookPrototype> books =
-             }
-         }
-
-         private static int get_chapters () {
-
-         }
-
-         public static set_current_bible () {
-
-         }
-
-         public
-
-     }
-
- }
+public class BibleNow.Dialog.Settings : Gtk.Dialog {
+  public Settings () {
+    
+  }
+}

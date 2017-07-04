@@ -40,7 +40,7 @@ namespace BibleNow {
         outline-style: none;
         transition-property: none;
         box-shadow: none;
-        padding: 10px 20px;
+        padding: 10px 12px;
     }
     .book-select-item:active{
         outline-style: none;

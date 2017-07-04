@@ -197,6 +197,7 @@ namespace BibleNow.Widgets {
 
         construct {
             get_style_context ().add_class ("book-select-item");
+            set_alignment (0, 0.5f);
         }
 
         public BookSelectItem.withPrototype (BookPrototype prototype, BookSelectPopover popover, bool local_names) {

@@ -102,21 +102,26 @@ public class BibleNow.Window : Gtk.ApplicationWindow {
     }
 
     private Gtk.MenuButton generateMenu () {
-        var appMenuButton = new Gtk.MenuButton ();
+        var appMenuButton = new Gtk.ToggleButton ();
         Gtk.Image icon = new Gtk.Image.from_icon_name ("open-menu", Gtk.IconSize.LARGE_TOOLBAR);
         appMenuButton.set_image (icon);
 
-        var appMenu = new GLib.Menu ();
+        Gtk.Popover menuPopover = new Gtk.Popover ();
+        appMenuButton.bind_property ("active", menuPopover, "visible", GLib.BindingFlags.BIDIRECTIONAL);
+        Gtk.Box appMenu = new Gtk.Box ();
 
-
-        var translationsItem =  new GLib.MenuItem ("Bible translations", null);
-        var preferencesItem = new GLib.MenuItem ("Preferences", null);
-        appMenu.append_item (translationsItem);
-        appMenu.append_item (preferencesItem);
+        var translationsItem =  new Gtk.Button.with_label ("Bible translations");
+        var preferencesItem = ne Gtk.Button.with_label ("Preferences");
+        menuPopover.append_item (translationsItem);
+        menuPopover.append_item (preferencesItem);
 
         var appMenuPopover = new Gtk.Popover.from_model (appMenuButton, appMenu);
         appMenuButton.set_popover (appMenuPopover);
         return appMenuButton;
+    }
+
+    private void openSettings () {
+
     }
 
     private void loadCss () {
