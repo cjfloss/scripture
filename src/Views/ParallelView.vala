@@ -27,14 +27,17 @@ namespace BibleNow.Views {
         public ReadingArea readingArea2;
         public BibleSelect bibleSelect1;
         public BibleSelect bibleSelect2;
+        private Gtk.Box toolbar1;
+        private Gtk.Box toolbar2;
+        private string theme_class = "black-white";
 
         construct {
             readingArea1 = new ReadingArea ();
             readingArea2 = new ReadingArea ();
             var box1 = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             var box2 = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
-            var toolbar1 = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-            var toolbar2 = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+            toolbar1 = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+            toolbar2 = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
             toolbar1.get_style_context ().add_class ("parallelview-toolbar");
             toolbar2.get_style_context ().add_class ("parallelview-toolbar");
 
@@ -51,10 +54,23 @@ namespace BibleNow.Views {
             box2.pack_start(readingArea2);
             pack1(box1, true, false);
             pack2(box2, true, false);
+            set_background ();
         }
 
         public ParallelView () {
             Object(orientation: Gtk.Orientation.HORIZONTAL);
+            BibleNow.Settings.get_instance ().changed.connect (() => {
+                set_background ();
+            });
+        }
+
+        private void set_background () {
+            BibleNow.ViewTheme theme = BibleNow.ViewTheme.get_from_int ((int) BibleNow.Settings.get_instance ().theme);
+            toolbar1.get_style_context ().remove_class (theme_class);
+            toolbar2.get_style_context ().remove_class (theme_class);
+            theme_class = theme.to_string ();
+            toolbar1.get_style_context ().add_class (theme_class);
+            toolbar2.get_style_context ().add_class (theme_class);
         }
     }
 }

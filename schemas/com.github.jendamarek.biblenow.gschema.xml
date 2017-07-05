@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schemalist>
+    <schema id="com.github.jendamarek.biblenow" path="/com/github/jendamarek/biblenow/" gettext-domain="biblenow">
+        <key name="parallel-mode" type="b">
+            <default>false</default>
+            <summary>Switching between parallel and single reading mode.</summary>
+			<description>
+                When parallel enabled you can read from two translations simultaneously.
+            </description>
+        </key>
+        <key name="verse-mode" type="b">
+            <default>false</default>
+            <summary>Show one verse on a line.</summary>
+			<description>
+                When true the reading area shows one verse on a line. When false the verses are grouped in paragraphs.
+            </description>
+        </key>
+        <key name="theme" type="i">
+            <default>0</default>
+            <summary>Sets the reading area theme.</summary>
+			<description></description>
+        </key>
+        <key name="num-mode" type="i">
+            <default>0</default>
+            <summary>Sets the numbers display size.</summary>
+			<description></description>
+        </key>
+        <key name="font-size" type="d">
+            <default>16</default>
+            <summary>Sets font size.</summary>
+			<description></description>
+        </key>
+    </schema>
+</schemalist>

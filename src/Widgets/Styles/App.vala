@@ -98,5 +98,15 @@ namespace BibleNow {
     .bible-select-item {
         padding: 7px;
     }
+
+    .black-white {
+        background-color: rgb(255,255,255);
+    }
+    .brick {
+        background-color: rgb(255,255,255);
+    }
+    .paper {
+        background-color: rgb(255, 250, 230);
+    }
     """;
 }

@@ -27,9 +27,7 @@ public class BibleNow.Dialogs.Preferences : Gtk.Dialog {
     }
 
     public Preferences (Gtk.Window parent) {
-        if (parent != null) {
-            set_transient_for (parent);
-        }
+        Object (transient_for: parent);
     }
 
     private void create_layout () {
@@ -40,7 +38,6 @@ public class BibleNow.Dialogs.Preferences : Gtk.Dialog {
 
         var button_box = new Gtk.ButtonBox (Gtk.Orientation.HORIZONTAL);
         button_box.set_layout (Gtk.ButtonBoxStyle.END);
-        button_box.pack_end (close_button);
         button_box.margin = 12;
         button_box.margin_bottom = 0;
         button_box.pack_end (close_button);
@@ -50,28 +47,56 @@ public class BibleNow.Dialogs.Preferences : Gtk.Dialog {
         add_options (settings_grid);
         main_grid.attach (settings_grid, 0, 0, 1, 1);
         main_grid.attach (button_box, 0, 1, 1, 1);
-        ((Gtk.Container) get_content_area ()).add (main_grid);
+
+        ((Gtk.Box) get_content_area ()).pack_start (main_grid);
     }
 
     private void add_options (Gtk.Grid grid) {
 
         var view_mode_label = new Gtk.Label ("Parallel mode");
         var view_mode_switch = new Gtk.Switch ();
-        add_switch (grid, 1, view_mode_label, view_mode_switch);
+        view_mode_switch.active = BibleNow.Settings.get_instance ().parallel_mode;
+        view_mode_switch.bind_property("active", BibleNow.Settings.get_instance (), "parallel_mode", GLib.BindingFlags.BIDIRECTIONAL);
+        add_item (grid, 1, view_mode_label, view_mode_switch);
+
+        var verse_mode_label = new Gtk.Label ("One verse per line");
+        var verse_mode_switch = new Gtk.Switch ();
+        verse_mode_switch.active = BibleNow.Settings.get_instance ().verse_mode;
+        verse_mode_switch.bind_property("active", BibleNow.Settings.get_instance (), "verse_mode", GLib.BindingFlags.BIDIRECTIONAL);
+        add_item (grid, 2, verse_mode_label, verse_mode_switch);
 
         var theme_label = new Gtk.Label ("Theme");
-        var theme_combo = new Gtk.ComboBox ();
-        add_switch (grid, 2, theme_label, theme_combo);
+        var theme_combo = new BibleNow.Widgets.SettingsCombo ();
+        theme_combo.fill (BibleNow.VIEW_THEME_COMBOTEXT);
+        theme_combo.selection = BibleNow.Settings.get_instance ().theme;
+        theme_combo.bind_setting ("theme");
+        add_item (grid, 3, theme_label, theme_combo, true);
+
+        var nummode_label = new Gtk.Label ("Display numbers");
+        var nummode_combo = new BibleNow.Widgets.SettingsCombo ();
+        nummode_combo.fill (BibleNow.NUM_MODE_COMBOTEXT);
+        nummode_combo.selection = BibleNow.Settings.get_instance ().num_mode;
+        nummode_combo.bind_setting ("num_mode");
+        add_item (grid, 4, nummode_label, nummode_combo, true);
+
+        var fontsize_label = new Gtk.Label ("Font size");
+        var fontsize_spin = new Gtk.SpinButton.with_range (12.0, 20.0, 1.0);
+        fontsize_spin.value = BibleNow.Settings.get_instance ().font_size;
+        fontsize_spin.bind_property("value", BibleNow.Settings.get_instance (), "font_size", GLib.BindingFlags.BIDIRECTIONAL);
+        add_item (grid, 5, fontsize_label, fontsize_spin);
     }
 
-    private void add_switch (Gtk.Grid grid, int num, Gtk.Label label, Gtk.Widget gswitch) {
+    private void add_item (Gtk.Grid grid, int num, Gtk.Label label, Gtk.Widget item, bool stretch = false) {
         label.set_xalign (1.0f);
-        gswitch.margin_start = 7;
-        label.margin_top = label.margin_bottom = gswitch.margin_top = gswitch.margin_bottom = 5;
+        item.margin_start = 7;
+        label.margin_top = label.margin_bottom = item.margin_top = item.margin_bottom = 5;
         grid.attach (label, 0, (num-1), 1, 1);
-        var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
-        box.pack_start (gswitch, false, false);
-        grid.attach (box, 1, (num-1), 1, 1);
+        if (stretch){
+            grid.attach (item, 1, (num-1), 1, 1);
+        } else {
+            var box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0);
+            box.pack_start (item, false, false);
+            grid.attach (box, 1, (num-1), 1, 1);
+        }
     }
-
 }

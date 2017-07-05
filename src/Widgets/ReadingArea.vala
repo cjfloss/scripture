@@ -38,8 +38,8 @@ namespace BibleNow.Widgets {
             get { return _night_mode; }
             set { _set_night_mode (value); }
         }
-        private NumMode _num_mode;
-        public NumMode num_mode {
+        private BibleNow.NumMode _num_mode;
+        public BibleNow.NumMode num_mode {
             get { return _num_mode; }
             set { _set_num_mode (value); }
         }
@@ -48,8 +48,8 @@ namespace BibleNow.Widgets {
             get { return _font_size; }
             set { _set_font_size (value); }
         }
-        private ViewTheme _theme;
-        public ViewTheme theme {
+        private BibleNow.ViewTheme _theme;
+        public BibleNow.ViewTheme theme {
             get { return _theme; }
             set { _set_theme (value); }
         }
@@ -58,18 +58,33 @@ namespace BibleNow.Widgets {
             Object(user_content_manager: new WebKit.UserContentManager ());
             load_template ();
             load_defaults ();
+            create_settings_listener ();
         }
 
         public void load_defaults () {
             load_styles ();
             content = new ArrayList<Verse> ();
-            theme = ViewTheme.BLACK_WHITE;
+            theme = BibleNow.ViewTheme.BLACK_WHITE;
             night_mode = false;
             verse_mode = false;
-            num_mode = NumMode.NONE;
+            num_mode = BibleNow.NumMode.NONE;
             font_size = 16;
             width_request = 250;
             height_request = 200;
+            load_settings ();
+        }
+
+        private void create_settings_listener () {
+            BibleNow.Settings.get_instance ().changed.connect (() => {
+                load_settings ();
+            });
+        }
+
+        public void load_settings () {
+            verse_mode = BibleNow.Settings.get_instance ().verse_mode;
+            font_size = (int) BibleNow.Settings.get_instance ().font_size;
+            theme = BibleNow.ViewTheme.get_from_int ((int) BibleNow.Settings.get_instance ().theme);
+            num_mode = BibleNow.NumMode.get_from_int ((int) BibleNow.Settings.get_instance ().num_mode);
         }
 
         private void load_template () {
@@ -119,7 +134,7 @@ namespace BibleNow.Widgets {
             load_html_content (content_string);
         }
 
-        private void _set_theme (ViewTheme theme) {
+        private void _set_theme (BibleNow.ViewTheme theme) {
             var name = theme.to_string ();
             string script = """
                 document.body.setAttribute("data-theme", "%s");
@@ -151,7 +166,7 @@ namespace BibleNow.Widgets {
             _set_content ();
         }
 
-        private void _set_num_mode (NumMode mode) {
+        private void _set_num_mode (BibleNow.NumMode mode) {
             string script = "document.body.setAttribute(\"data-nums\", \"%s\");";
             var sb = new StringBuilder ();
             sb.printf (script, mode.to_string ());
@@ -175,7 +190,9 @@ namespace BibleNow.Widgets {
             );
         }
     }
+}
 
+namespace BibleNow {
     public enum NumMode {
         NONE,
         SMALL,
@@ -193,8 +210,20 @@ namespace BibleNow.Widgets {
                     assert_not_reached();
             }
         }
+        public static NumMode get_from_int (int id) {
+            switch (id) {
+                case 0:
+                    return NONE;
+                case 1:
+                    return SMALL;
+                case 2:
+                    return NORMAL;
+                default:
+                    assert_not_reached();
+            }
+        }
     }
-
+    public const string[] NUM_MODE_COMBOTEXT = {"None", "Small", "Normal"};
     public enum ViewTheme {
         BLACK_WHITE,
         BRICK,
@@ -212,5 +241,19 @@ namespace BibleNow.Widgets {
                     assert_not_reached();
             }
         }
+
+        public static ViewTheme get_from_int (int id) {
+            switch (id) {
+                case 0:
+                    return BLACK_WHITE;
+                case 1:
+                    return BRICK;
+                case 2:
+                    return PAPER;
+                default:
+                    assert_not_reached();
+            }
+        }
     }
+    public const string[] VIEW_THEME_COMBOTEXT = {"Black and white", "Brick", "Paper"};
 }

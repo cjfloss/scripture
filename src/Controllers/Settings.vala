@@ -15,22 +15,23 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BibleNow.Views {
+class BibleNow.Settings : Granite.Services.Settings {
+    private static Settings? instance = null;
 
-    using BibleNow.Entities;
-    using BibleNow.Widgets;
-    using Gee;
+    public bool parallel_mode { get; set; }
+    public bool verse_mode { get; set; }
+    public int theme { get; set; }
+    public int num_mode { get; set; }
+    public double font_size { get; set; }
 
-    public class SingleView : Gtk.Bin {
+    public static Settings get_instance () {
+      if (instance == null) {
+          instance = new Settings ();
+      }
+      return instance;
+    }
 
-        public ReadingArea readingArea;
-
-        construct {
-            readingArea = new ReadingArea ();
-            add(readingArea);
-        }
-
-        public SingleView () {
-        }
+    private Settings () {
+      base ("com.github.jendamarek.biblenow");
     }
 }

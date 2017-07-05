@@ -24,6 +24,9 @@ pkg_check_modules(DEPS REQUIRED
                   sqlite3>=3.5.9
                  )
 
+include (GSettings)
+add_schema ("schemas/com.github.jendamarek.biblenow.gschema.xml")
+
 add_definitions(${DEPS_CFLAGS})
 link_libraries(${DEPS_LIBRARIES} -lm)
 link_directories(${DEPS_LIBRARY_DIRS})
@@ -39,9 +42,11 @@ vala_precompile(VALA_C
    src/Widgets/BibleSelect.vala
    src/Widgets/ReadingArea.vala
    src/Widgets/AppMenu.vala
+   src/Widgets/SettingsCombo.vala
    src/Widgets/Styles/View.vala
    src/Widgets/Styles/App.vala
    src/Views/ParallelView.vala
+   src/Views/SingleView.vala
    src/Dialogs/PreferencesDialog.vala
    src/Model/Verse.vala
    src/Model/Chapter.vala
@@ -53,6 +58,7 @@ vala_precompile(VALA_C
    src/Model/Database/Transaction.vala
    src/Model/Database/Database.vala
    src/Model/Database/Create.vala
+   src/Controllers/Settings.vala
 
 PACKAGES
    gtk+-3.0

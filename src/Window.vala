@@ -22,6 +22,10 @@ using BibleNow.Entities;
 public class BibleNow.Window : Gtk.ApplicationWindow {
 
     private Granite.Application app;
+    public Gtk.Stack stack;
+    public BibleNow.Views.ParallelView parallelView;
+    public BibleNow.Views.SingleView singleView;
+    public bool locked = false;
 
     public Window (Granite.Application app) {
         Object (application: app);
@@ -66,6 +70,8 @@ public class BibleNow.Window : Gtk.ApplicationWindow {
         hb.set_show_close_button (true);
         this.set_titlebar (hb);
 
+        stack = new Gtk.Stack ();
+
         /* Create book and chapter switcher */
 
         var bookSelect = new BibleNow.Widgets.BookSelect ();
@@ -88,16 +94,34 @@ public class BibleNow.Window : Gtk.ApplicationWindow {
         hb.pack_end (appMenu);
         hb.pack_end (searchField);
 
-        var readview = new BibleNow.Views.ParallelView ();
-        readview.readingArea1.content = verses;
-        readview.readingArea2.content = verses;
+        parallelView = new BibleNow.Views.ParallelView ();
+        singleView = new BibleNow.Views.SingleView ();
 
-        this.add(readview);
+        singleView.readingArea.content = verses;
+        parallelView.readingArea1.content = verses;
+        parallelView.readingArea2.content = verses;
+        stack.add_named(singleView, "Single view");
+        stack.add_named(parallelView, "Parallel view");
+        this.add(stack);
+
+        BibleNow.Settings.get_instance ().changed.connect (() => {
+            display_bible_view ();
+        });
+    }
+
+    private void display_bible_view () {
+
+        if (BibleNow.Settings.get_instance ().parallel_mode && !locked) {
+            stack.visible_child = parallelView;
+        } else {
+            stack.visible_child = singleView;
+        }
     }
 
     public void show_app () {
         show_all ();
         show ();
+        display_bible_view ();
     }
 
     private void loadCss () {
