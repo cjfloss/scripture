@@ -197,7 +197,6 @@ namespace BibleNow.Widgets {
 
         construct {
             get_style_context ().add_class ("book-select-item");
-            set_alignment (0, 0.5f);
         }
 
         public BookSelectItem.withPrototype (BookPrototype prototype, BookSelectPopover popover, bool local_names) {
@@ -206,6 +205,8 @@ namespace BibleNow.Widgets {
             this.clicked.connect(() => {
                 popover.select_prototype(this.prototype);
             });
+            Gtk.Label label = (Gtk.Label) this.get_child ();
+            label.set_xalign (0);
         }
 
         public BookSelectItem.withBook (Book book, BookSelectPopover popover, bool local_names) {
@@ -214,6 +215,8 @@ namespace BibleNow.Widgets {
             this.clicked.connect(() => {
                 popover.select_book(this.book);
             });
+            Gtk.Label label = (Gtk.Label) this.get_child ();
+            label.set_xalign (0);
         }
     }
 

@@ -38,9 +38,11 @@ vala_precompile(VALA_C
    src/Widgets/BookSelect.vala
    src/Widgets/BibleSelect.vala
    src/Widgets/ReadingArea.vala
+   src/Widgets/AppMenu.vala
    src/Widgets/Styles/View.vala
    src/Widgets/Styles/App.vala
    src/Views/ParallelView.vala
+   src/Dialogs/PreferencesDialog.vala
    src/Model/Verse.vala
    src/Model/Chapter.vala
    src/Model/Bible.vala

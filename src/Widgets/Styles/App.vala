@@ -19,6 +19,23 @@ namespace BibleNow {
 
     unowned string APP_STYLES = """
 
+    GtkPopover GtkButton {
+        background: none;
+        border-style: none;
+        outline-style: none;
+        transition-property: none;
+        box-shadow: none;
+        padding: 10px 12px;
+    }
+
+    GtkPopover GtkButton:active{
+        outline-style: none;
+        box-shadow: none;
+    }
+    GtkPopover GtkButton:hover{
+        background-color: rgba(0,0,0,0.1);
+    }
+
     .chapter-select-item {
         background: none;
         border-style: none;
@@ -40,7 +57,6 @@ namespace BibleNow {
         outline-style: none;
         transition-property: none;
         box-shadow: none;
-        padding: 10px 12px;
     }
     .book-select-item:active{
         outline-style: none;

@@ -21,7 +21,7 @@ namespace BibleNow.Views {
     using BibleNow.Widgets;
     using Gee;
 
-    public class ReadView : Gtk.Grid {
+    public class SingleView : Gtk.Grid {
 
         public ReadingArea readingArea;
 
@@ -30,7 +30,7 @@ namespace BibleNow.Views {
             add(readingArea);
         }
 
-        public ReadView () {
+        public SingleView () {
         }
     }
 }
