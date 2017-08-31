@@ -1,4 +1,4 @@
-project (scripture)
+project (com.github.jendamarek.scripture)
 
 cmake_minimum_required (VERSION 2.6)
 
