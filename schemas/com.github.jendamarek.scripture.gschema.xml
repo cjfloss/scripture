@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <schemalist>
-    <schema id="com.github.jendamarek.biblenow" path="/com/github/jendamarek/biblenow/" gettext-domain="biblenow">
+    <schema id="com.github.jendamarek.scripture" path="/com/github/jendamarek/scripture/" gettext-domain="scripture">
         <key name="parallel-mode" type="b">
             <default>false</default>
             <summary>Switching between parallel and single reading mode.</summary>

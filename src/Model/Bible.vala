@@ -1,4 +1,4 @@
-/* BibleNow - Desktop Bible reading app that works offline
+/* Scripture - Desktop Bible reading app that works offline
  * Copyright (C) 2017  Jan Marek <janmarek28@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BibleNow.Entities {
+namespace Scripture.Entities {
 
     using Gee;
-    using BibleNow.Utils;
+    using Scripture.Utils;
 
     public class Bible {
 
-        public BibleNow.Utils.Transaction transaction;
+        public Scripture.Utils.Transaction transaction;
 
         public const string TABLE = "bible";
         public int id;
@@ -58,7 +58,7 @@ namespace BibleNow.Entities {
         }
 
         public Bible.selectById (int id) {
-            var query = new BibleNow.Utils.Query.selectById(TABLE, id);
+            var query = new Scripture.Utils.Query.selectById(TABLE, id);
             ArrayList<ArrayList<string>> results = query.execute ();
             if(results.size == 1){
                 this.id = id;
@@ -70,7 +70,7 @@ namespace BibleNow.Entities {
         }
 
         public static ArrayList<Bible> selectAll () {
-            var query = new BibleNow.Utils.Query.selectAll(TABLE);
+            var query = new Scripture.Utils.Query.selectAll(TABLE);
             ArrayList<Bible> bibles = new ArrayList<Bible>();
             ArrayList<ArrayList<string>> results = query.execute ();
             foreach (ArrayList<string> row in results) {
@@ -82,7 +82,7 @@ namespace BibleNow.Entities {
         public ArrayList<Book> getBooks () {
             ArrayList<Condition> where = new ArrayList<Condition>();
             where.add(new Condition.withInt("bible_id", id));
-            var query = new BibleNow.Utils.Query.selectWhereEquals("book", where);
+            var query = new Scripture.Utils.Query.selectWhereEquals("book", where);
             ArrayList<Book> books = new ArrayList<Book>();
             ArrayList<ArrayList<string>> results = query.execute ();
             foreach (ArrayList<string> row in results) {

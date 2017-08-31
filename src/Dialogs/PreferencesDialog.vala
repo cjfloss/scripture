@@ -1,4 +1,4 @@
-/* BibleNow - Desktop Bible reading app that works offline
+/* Scripture - Desktop Bible reading app that works offline
  * Copyright (C) 2017  Jan Marek <janmarek28@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class BibleNow.Dialogs.Preferences : Gtk.Dialog {
+public class Scripture.Dialogs.Preferences : Gtk.Dialog {
 
     construct {
         title = "Preferences";
@@ -55,34 +55,34 @@ public class BibleNow.Dialogs.Preferences : Gtk.Dialog {
 
         var view_mode_label = new Gtk.Label ("Parallel mode");
         var view_mode_switch = new Gtk.Switch ();
-        view_mode_switch.active = BibleNow.Settings.get_instance ().parallel_mode;
-        view_mode_switch.bind_property("active", BibleNow.Settings.get_instance (), "parallel_mode", GLib.BindingFlags.BIDIRECTIONAL);
+        view_mode_switch.active = Scripture.Settings.get_instance ().parallel_mode;
+        view_mode_switch.bind_property("active", Scripture.Settings.get_instance (), "parallel_mode", GLib.BindingFlags.BIDIRECTIONAL);
         add_item (grid, 1, view_mode_label, view_mode_switch);
 
         var verse_mode_label = new Gtk.Label ("One verse per line");
         var verse_mode_switch = new Gtk.Switch ();
-        verse_mode_switch.active = BibleNow.Settings.get_instance ().verse_mode;
-        verse_mode_switch.bind_property("active", BibleNow.Settings.get_instance (), "verse_mode", GLib.BindingFlags.BIDIRECTIONAL);
+        verse_mode_switch.active = Scripture.Settings.get_instance ().verse_mode;
+        verse_mode_switch.bind_property("active", Scripture.Settings.get_instance (), "verse_mode", GLib.BindingFlags.BIDIRECTIONAL);
         add_item (grid, 2, verse_mode_label, verse_mode_switch);
 
         var theme_label = new Gtk.Label ("Theme");
-        var theme_combo = new BibleNow.Widgets.SettingsCombo ();
-        theme_combo.fill (BibleNow.VIEW_THEME_COMBOTEXT);
-        theme_combo.selection = BibleNow.Settings.get_instance ().theme;
+        var theme_combo = new Scripture.Widgets.SettingsCombo ();
+        theme_combo.fill (Scripture.VIEW_THEME_COMBOTEXT);
+        theme_combo.selection = Scripture.Settings.get_instance ().theme;
         theme_combo.bind_setting ("theme");
         add_item (grid, 3, theme_label, theme_combo, true);
 
         var nummode_label = new Gtk.Label ("Display numbers");
-        var nummode_combo = new BibleNow.Widgets.SettingsCombo ();
-        nummode_combo.fill (BibleNow.NUM_MODE_COMBOTEXT);
-        nummode_combo.selection = BibleNow.Settings.get_instance ().num_mode;
+        var nummode_combo = new Scripture.Widgets.SettingsCombo ();
+        nummode_combo.fill (Scripture.NUM_MODE_COMBOTEXT);
+        nummode_combo.selection = Scripture.Settings.get_instance ().num_mode;
         nummode_combo.bind_setting ("num_mode");
         add_item (grid, 4, nummode_label, nummode_combo, true);
 
         var fontsize_label = new Gtk.Label ("Font size");
         var fontsize_spin = new Gtk.SpinButton.with_range (12.0, 20.0, 1.0);
-        fontsize_spin.value = BibleNow.Settings.get_instance ().font_size;
-        fontsize_spin.bind_property("value", BibleNow.Settings.get_instance (), "font_size", GLib.BindingFlags.BIDIRECTIONAL);
+        fontsize_spin.value = Scripture.Settings.get_instance ().font_size;
+        fontsize_spin.bind_property("value", Scripture.Settings.get_instance (), "font_size", GLib.BindingFlags.BIDIRECTIONAL);
         add_item (grid, 5, fontsize_label, fontsize_spin);
     }
 

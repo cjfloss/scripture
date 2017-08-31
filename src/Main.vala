@@ -1,4 +1,4 @@
-/* BibleNow - Desktop Bible reading app that works offline
+/* Scripture - Desktop Bible reading app that works offline
  * Copyright (C) 2017  Jan Marek <janmarek28@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,31 +15,31 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-public class BibleNow.Application : Granite.Application {
+public class Scripture.Application : Granite.Application {
 
     public Application () {
-        Object (application_id: "biblenow.app",
+        Object (application_id: "scripture.app",
         flags: ApplicationFlags.FLAGS_NONE);
     }
 
     protected override void activate () {
-        var app_window = new BibleNow.Window (this);
+        var app_window = new Scripture.Window (this);
         this.add_window (app_window);
     }
 
     public static int main (string[] args) {
 
-        string conf_dir = GLib.Environment.get_user_config_dir ()+"/biblenow";
+        string conf_dir = GLib.Environment.get_user_config_dir ()+"/scripture";
         if(!FileUtils.test (conf_dir, FileTest.IS_DIR)){
             try {
-        		File file = File.new_for_path (GLib.Environment.get_user_config_dir ()+"/biblenow");
+        		File file = File.new_for_path (GLib.Environment.get_user_config_dir ()+"/scripture");
         		file.make_directory ();
         	} catch (Error e) {
         		stdout.printf ("Unable to create conf dir. Error: %s\n", e.message);
         	}
         }
 
-        var app = new BibleNow.Application ();
+        var app = new Scripture.Application ();
         return app.run (args);
     }
 

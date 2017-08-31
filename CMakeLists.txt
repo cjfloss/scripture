@@ -1,4 +1,4 @@
-project (biblenow)
+project (scripture)
 
 cmake_minimum_required (VERSION 2.6)
 
@@ -7,9 +7,9 @@ list (APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/src)
 
 set (DATADIR "${CMAKE_INSTALL_PREFIX}/share")
 
-set (PKGDATADIR "${DATADIR}/biblenow")
+set (PKGDATADIR "${DATADIR}/scripture")
 
-set (EXEC_NAME "biblenow")
+set (EXEC_NAME "scripture")
 set (RELEASE_NAME "nightly")
 set (VERSION "0.1")
 set (VERSION_INFO "just testing")
@@ -25,7 +25,7 @@ pkg_check_modules(DEPS REQUIRED
                  )
 
 include (GSettings)
-add_schema ("schemas/com.github.jendamarek.biblenow.gschema.xml")
+add_schema ("schemas/com.github.jendamarek.scripture.gschema.xml")
 
 add_definitions(${DEPS_CFLAGS})
 link_libraries(${DEPS_LIBRARIES} -lm)
@@ -72,6 +72,6 @@ add_executable(${EXEC_NAME} ${VALA_C})
 
 install (TARGETS ${EXEC_NAME} RUNTIME DESTINATION bin)
 
-install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/biblenow.desktop DESTINATION ${DATADIR}/applications/)
-install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/icons/48/biblenow.svg DESTINATION share/icons/hicolor/48x48/apps)
-install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/icons/64/biblenow.svg DESTINATION share/icons/hicolor/64x64/apps)
+install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/scripture.desktop DESTINATION ${DATADIR}/applications/)
+install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/icons/48/scripture.svg DESTINATION share/icons/hicolor/48x48/apps)
+install (FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/icons/64/scripture.svg DESTINATION share/icons/hicolor/64x64/apps)

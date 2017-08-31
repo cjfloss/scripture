@@ -1,4 +1,4 @@
-/* BibleNow - Desktop Bible reading app that works offline
+/* Scripture - Desktop Bible reading app that works offline
  * Copyright (C) 2017  Jan Marek <janmarek28@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -16,15 +16,15 @@
  */
 
 using Gee;
-using BibleNow.Utils;
-using BibleNow.Entities;
+using Scripture.Utils;
+using Scripture.Entities;
 
-public class BibleNow.Window : Gtk.ApplicationWindow {
+public class Scripture.Window : Gtk.ApplicationWindow {
 
     private Granite.Application app;
     public Gtk.Stack stack;
-    public BibleNow.Views.ParallelView parallelView;
-    public BibleNow.Views.SingleView singleView;
+    public Scripture.Views.ParallelView parallelView;
+    public Scripture.Views.SingleView singleView;
     public bool locked = false;
 
     public Window (Granite.Application app) {
@@ -74,9 +74,9 @@ public class BibleNow.Window : Gtk.ApplicationWindow {
 
         /* Create book and chapter switcher */
 
-        var bookSelect = new BibleNow.Widgets.BookSelect ();
+        var bookSelect = new Scripture.Widgets.BookSelect ();
         bookSelect.prototypes = BookPrototype.selectAll ();
-        var chapterSelect = new BibleNow.Widgets.ChapterSelect ();
+        var chapterSelect = new Scripture.Widgets.ChapterSelect ();
 
         var buttonGrid = new Gtk.Grid ();
         buttonGrid.get_style_context ().add_class (Gtk.STYLE_CLASS_LINKED);
@@ -88,14 +88,14 @@ public class BibleNow.Window : Gtk.ApplicationWindow {
         var searchField = new Gtk.SearchEntry ();
 
         /* Create menu */
-        var appMenu = new BibleNow.Widgets.AppMenu (this);
+        var appMenu = new Scripture.Widgets.AppMenu (this);
 
         hb.pack_start (buttonGrid);
         hb.pack_end (appMenu);
         hb.pack_end (searchField);
 
-        parallelView = new BibleNow.Views.ParallelView ();
-        singleView = new BibleNow.Views.SingleView ();
+        parallelView = new Scripture.Views.ParallelView ();
+        singleView = new Scripture.Views.SingleView ();
 
         singleView.readingArea.content = verses;
         parallelView.readingArea1.content = verses;
@@ -104,14 +104,14 @@ public class BibleNow.Window : Gtk.ApplicationWindow {
         stack.add_named(parallelView, "Parallel view");
         this.add(stack);
 
-        BibleNow.Settings.get_instance ().changed.connect (() => {
+        Scripture.Settings.get_instance ().changed.connect (() => {
             display_bible_view ();
         });
     }
 
     private void display_bible_view () {
 
-        if (BibleNow.Settings.get_instance ().parallel_mode && !locked) {
+        if (Scripture.Settings.get_instance ().parallel_mode && !locked) {
             stack.visible_child = parallelView;
         } else {
             stack.visible_child = singleView;
@@ -127,7 +127,7 @@ public class BibleNow.Window : Gtk.ApplicationWindow {
     private void loadCss () {
         try {
             var css_provider = new Gtk.CssProvider ();
-            css_provider.load_from_data (BibleNow.APP_STYLES);
+            css_provider.load_from_data (Scripture.APP_STYLES);
             Gdk.Screen screen = Gdk.Screen.get_default ();
             Gtk.StyleContext.add_provider_for_screen(screen, css_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
         } catch (GLib.Error e) {

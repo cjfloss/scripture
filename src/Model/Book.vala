@@ -1,4 +1,4 @@
-/* BibleNow - Desktop Bible reading app that works offline
+/* Scripture - Desktop Bible reading app that works offline
  * Copyright (C) 2017  Jan Marek <janmarek28@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BibleNow.Entities {
+namespace Scripture.Entities {
 
     using Gee;
-    using BibleNow.Utils;
+    using Scripture.Utils;
 
     public class Book {
 
-        public BibleNow.Utils.Transaction transaction;
+        public Scripture.Utils.Transaction transaction;
 
         public const string TABLE = "book";
         public int id;
@@ -92,7 +92,7 @@ namespace BibleNow.Entities {
         }
 
         public Book.selectById (int id) {
-            var query = new BibleNow.Utils.Query.selectById(TABLE, id);
+            var query = new Scripture.Utils.Query.selectById(TABLE, id);
             ArrayList<ArrayList<string>> results = query.execute ();
             if(results.size == 1){
                 this.id = id;
@@ -117,7 +117,7 @@ namespace BibleNow.Entities {
         }
 
         public static ArrayList<Book> selectAll () {
-            var query = new BibleNow.Utils.Query.selectAll(TABLE);
+            var query = new Scripture.Utils.Query.selectAll(TABLE);
             ArrayList<Book> books = new ArrayList<Book>();
             ArrayList<ArrayList<string>> results = query.execute ();
             foreach (ArrayList<string> row in results) {
@@ -146,7 +146,7 @@ namespace BibleNow.Entities {
             builder.printf("booktype_id = %i", bible.id);
             string where = builder.str;
 
-            var query = new BibleNow.Utils.Query.selectWhere(TABLE, where);
+            var query = new Scripture.Utils.Query.selectWhere(TABLE, where);
             ArrayList<Book> books = new ArrayList<Book>();
             ArrayList<ArrayList<string>> results = query.execute ();
             foreach (ArrayList<string> row in results) {

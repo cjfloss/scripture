@@ -1,4 +1,4 @@
-/* BibleNow - Desktop Bible reading app that works offline
+/* Scripture - Desktop Bible reading app that works offline
  * Copyright (C) 2017  Jan Marek <janmarek28@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BibleNow.Widgets {
+namespace Scripture.Widgets {
 
     public class ChapterSelect : Gtk.ToggleButton {
 
@@ -49,7 +49,7 @@ namespace BibleNow.Widgets {
 
         public ChapterSelect () {
 
-            popover = new BibleNow.Widgets.ChapterSelectPopover (this);
+            popover = new Scripture.Widgets.ChapterSelectPopover (this);
             get_style_context ().add_class ("chapter-select-button");
             bind_property ("active", popover, "visible", GLib.BindingFlags.BIDIRECTIONAL);
             empty = true;

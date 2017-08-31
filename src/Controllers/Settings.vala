@@ -1,4 +1,4 @@
-/* BibleNow - Desktop Bible reading app that works offline
+/* Scripture - Desktop Bible reading app that works offline
  * Copyright (C) 2017  Jan Marek <janmarek28@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class BibleNow.Settings : Granite.Services.Settings {
+class Scripture.Settings : Granite.Services.Settings {
     private static Settings? instance = null;
 
     public bool parallel_mode { get; set; }
@@ -32,6 +32,6 @@ class BibleNow.Settings : Granite.Services.Settings {
     }
 
     private Settings () {
-      base ("com.github.jendamarek.biblenow");
+      base ("com.github.jendamarek.scripture");
     }
 }

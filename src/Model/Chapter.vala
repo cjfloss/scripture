@@ -1,4 +1,4 @@
-/* BibleNow - Desktop Bible reading app that works offline
+/* Scripture - Desktop Bible reading app that works offline
  * Copyright (C) 2017  Jan Marek <janmarek28@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BibleNow.Entities {
+namespace Scripture.Entities {
 
-    using BibleNow.Utils;
+    using Scripture.Utils;
     using Gee;
 
     public class Chapter {
@@ -42,7 +42,7 @@ namespace BibleNow.Entities {
         }
 
         public Chapter.selectById (int id) {
-            var query = new BibleNow.Utils.Query.selectById(TABLE, id);
+            var query = new Scripture.Utils.Query.selectById(TABLE, id);
             ArrayList<ArrayList<string>> results = query.execute ();
             if(results.size == 1){
                 this.id = id;
@@ -80,7 +80,7 @@ namespace BibleNow.Entities {
         public ArrayList<Verse> getVerses () {
             ArrayList<Condition> where = new ArrayList<Condition>();
             where.add(new Condition.withInt("chapter_id", id));
-            var query = new BibleNow.Utils.Query.selectWhereEquals("verse", where);
+            var query = new Scripture.Utils.Query.selectWhereEquals("verse", where);
             ArrayList<Verse> verses = new ArrayList<Verse>();
             ArrayList<ArrayList<string>> results = query.execute ();
             foreach (ArrayList<string> row in results) {

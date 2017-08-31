@@ -1,4 +1,4 @@
-/* BibleNow - Desktop Bible reading app that works offline
+/* Scripture - Desktop Bible reading app that works offline
  * Copyright (C) 2017  Jan Marek <janmarek28@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,10 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BibleNow.Views {
+namespace Scripture.Views {
 
-    using BibleNow.Entities;
-    using BibleNow.Widgets;
+    using Scripture.Entities;
+    using Scripture.Widgets;
     using Gee;
 
     public class ParallelView : Gtk.Paned {
@@ -59,13 +59,13 @@ namespace BibleNow.Views {
 
         public ParallelView () {
             Object(orientation: Gtk.Orientation.HORIZONTAL);
-            BibleNow.Settings.get_instance ().changed.connect (() => {
+            Scripture.Settings.get_instance ().changed.connect (() => {
                 set_background ();
             });
         }
 
         private void set_background () {
-            BibleNow.ViewTheme theme = BibleNow.ViewTheme.get_from_int ((int) BibleNow.Settings.get_instance ().theme);
+            Scripture.ViewTheme theme = Scripture.ViewTheme.get_from_int ((int) Scripture.Settings.get_instance ().theme);
             toolbar1.get_style_context ().remove_class (theme_class);
             toolbar2.get_style_context ().remove_class (theme_class);
             theme_class = theme.to_string ();

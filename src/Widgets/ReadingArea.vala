@@ -1,4 +1,4 @@
-/* BibleNow - Desktop Bible reading app that works offline
+/* Scripture - Desktop Bible reading app that works offline
  * Copyright (C) 2017  Jan Marek <janmarek28@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace BibleNow.Widgets {
+namespace Scripture.Widgets {
 
-    using BibleNow.Entities;
+    using Scripture.Entities;
     using Gee;
 
     public class ReadingArea : WebKit.WebView {
@@ -38,8 +38,8 @@ namespace BibleNow.Widgets {
             get { return _night_mode; }
             set { _set_night_mode (value); }
         }
-        private BibleNow.NumMode _num_mode;
-        public BibleNow.NumMode num_mode {
+        private Scripture.NumMode _num_mode;
+        public Scripture.NumMode num_mode {
             get { return _num_mode; }
             set { _set_num_mode (value); }
         }
@@ -48,8 +48,8 @@ namespace BibleNow.Widgets {
             get { return _font_size; }
             set { _set_font_size (value); }
         }
-        private BibleNow.ViewTheme _theme;
-        public BibleNow.ViewTheme theme {
+        private Scripture.ViewTheme _theme;
+        public Scripture.ViewTheme theme {
             get { return _theme; }
             set { _set_theme (value); }
         }
@@ -64,10 +64,10 @@ namespace BibleNow.Widgets {
         public void load_defaults () {
             load_styles ();
             content = new ArrayList<Verse> ();
-            theme = BibleNow.ViewTheme.BLACK_WHITE;
+            theme = Scripture.ViewTheme.BLACK_WHITE;
             night_mode = false;
             verse_mode = false;
-            num_mode = BibleNow.NumMode.NONE;
+            num_mode = Scripture.NumMode.NONE;
             font_size = 16;
             width_request = 250;
             height_request = 200;
@@ -75,16 +75,16 @@ namespace BibleNow.Widgets {
         }
 
         private void create_settings_listener () {
-            BibleNow.Settings.get_instance ().changed.connect (() => {
+            Scripture.Settings.get_instance ().changed.connect (() => {
                 load_settings ();
             });
         }
 
         public void load_settings () {
-            verse_mode = BibleNow.Settings.get_instance ().verse_mode;
-            font_size = (int) BibleNow.Settings.get_instance ().font_size;
-            theme = BibleNow.ViewTheme.get_from_int ((int) BibleNow.Settings.get_instance ().theme);
-            num_mode = BibleNow.NumMode.get_from_int ((int) BibleNow.Settings.get_instance ().num_mode);
+            verse_mode = Scripture.Settings.get_instance ().verse_mode;
+            font_size = (int) Scripture.Settings.get_instance ().font_size;
+            theme = Scripture.ViewTheme.get_from_int ((int) Scripture.Settings.get_instance ().theme);
+            num_mode = Scripture.NumMode.get_from_int ((int) Scripture.Settings.get_instance ().num_mode);
         }
 
         private void load_template () {
@@ -134,7 +134,7 @@ namespace BibleNow.Widgets {
             load_html_content (content_string);
         }
 
-        private void _set_theme (BibleNow.ViewTheme theme) {
+        private void _set_theme (Scripture.ViewTheme theme) {
             var name = theme.to_string ();
             string script = """
                 document.body.setAttribute("data-theme", "%s");
@@ -166,7 +166,7 @@ namespace BibleNow.Widgets {
             _set_content ();
         }
 
-        private void _set_num_mode (BibleNow.NumMode mode) {
+        private void _set_num_mode (Scripture.NumMode mode) {
             string script = "document.body.setAttribute(\"data-nums\", \"%s\");";
             var sb = new StringBuilder ();
             sb.printf (script, mode.to_string ());
@@ -186,13 +186,13 @@ namespace BibleNow.Widgets {
 
         private void load_styles () {
             user_content_manager.add_style_sheet (
-                new WebKit.UserStyleSheet (BibleNow.VIEW_STYLES , WebKit.UserContentInjectedFrames.TOP_FRAME, WebKit.UserStyleLevel.AUTHOR, null, null)
+                new WebKit.UserStyleSheet (Scripture.VIEW_STYLES , WebKit.UserContentInjectedFrames.TOP_FRAME, WebKit.UserStyleLevel.AUTHOR, null, null)
             );
         }
     }
 }
 
-namespace BibleNow {
+namespace Scripture {
     public enum NumMode {
         NONE,
         SMALL,

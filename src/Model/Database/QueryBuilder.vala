@@ -1,4 +1,4 @@
-/* BibleNow - Desktop Bible reading app that works offline
+/* Scripture - Desktop Bible reading app that works offline
  * Copyright (C) 2017  Jan Marek <janmarek28@gmail.com>
  *
  * This program is free software: you can redistribute it and/or modify
@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-namespace BibleNow.Utils {
+namespace Scripture.Utils {
 
     using Gee;
 
@@ -36,7 +36,7 @@ namespace BibleNow.Utils {
             this.query = query;
         }
 
-        public Query.selectById (string table, int id) { //BibleNow.Utils.Database db
+        public Query.selectById (string table, int id) { //Scripture.Utils.Database db
             StringBuilder builder = new StringBuilder ();
             builder.printf("SELECT * FROM %s WHERE id=$BID;", table);
             query = builder.str;
@@ -44,7 +44,7 @@ namespace BibleNow.Utils {
             stmt.bind_int (param_position, id);
         }
 
-        public Query.selectWhereEquals (string table, ArrayList<Condition> conditions, string subject = "*") { //BibleNow.Utils.Database db
+        public Query.selectWhereEquals (string table, ArrayList<Condition> conditions, string subject = "*") { //Scripture.Utils.Database db
             string where = "";
             foreach (Condition c in conditions) {
                 where += c.get_condition() + " AND ";
@@ -65,13 +65,13 @@ namespace BibleNow.Utils {
             }
         }
 
-        public Query.selectWhere (string table, string where) { //BibleNow.Utils.Database db
+        public Query.selectWhere (string table, string where) { //Scripture.Utils.Database db
             StringBuilder builder = new StringBuilder ();
             builder.printf("SELECT * FROM %s WHERE %s;\n", table, where);
             this.query = builder.str;
         }
 
-        public Query.selectAll (string table) { //BibleNow.Utils.Database db
+        public Query.selectAll (string table) { //Scripture.Utils.Database db
             StringBuilder builder = new StringBuilder ();
             builder.printf("SELECT * FROM %s;\n", table);
             this.query = builder.str;
