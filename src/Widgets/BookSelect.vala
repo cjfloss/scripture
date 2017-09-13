@@ -23,37 +23,20 @@ namespace Scripture.Widgets {
     public class BookSelect : Gtk.ToggleButton {
 
         public signal void selection (BookPrototype prototype);
+
         private BookSelectPopover popover;
-        public bool local_names = false;
-        private ArrayList<Book> _books;
+
         private ArrayList<BookPrototype> _prototypes;
-        private bool prototype_mode = true;
-        public ArrayList<Book> books {
-            set {
-                _books = value;
-                prototype_mode = false;
-                popover.set_books (value);
-                if(value.size > 0){
-                    selected_book = value[0];
-                    empty = false;
-                } else {
-                    empty = true;
-                }
-            }
-            get {
-                return _books;
-            }
-        }
         public ArrayList<BookPrototype> prototypes {
             set {
                 _prototypes = value;
-                prototype_mode = true;
                 popover.set_prototypes (value);
                 if(value.size > 0){
                     selected_prototype = value[0];
-                    empty = false;
+                    //empty = true;
+                    //empty = false;
                 } else {
-                    empty = true;
+                    //empty = true;
                 }
             }
             get {
@@ -64,36 +47,22 @@ namespace Scripture.Widgets {
         public BookPrototype selected_prototype {
             set {
                 _selected_prototype = value;
-                this.selection (value);
                 this.set_label (value.name);
             }
             get { return _selected_prototype; }
-        }
-        private Book _selected_book;
-        public Book selected_book {
-            set {
-                _selected_book = value;
-                this.selection (value.prototype);
-                if (local_names) {
-                    set_label (value.name);
-                } else {
-                    set_label (value.prototype.name);
-                }
-            }
-            get { return _selected_book; }
         }
         private bool _empty;
         private bool empty {
             set {
                 _empty = value;
                 if(value){
-                    set_label ("No books");
+                    set_label ("-");
                     set_sensitive (false);
                 } else {
                     set_sensitive (true);
                 }
             }
-            get{
+            get {
                 return _empty;
             }
         }
@@ -102,10 +71,10 @@ namespace Scripture.Widgets {
             get_style_context ().add_class ("book-select-button");
             popover = new Scripture.Widgets.BookSelectPopover (this);
             bind_property ("active", popover, "visible", GLib.BindingFlags.BIDIRECTIONAL);
-            empty = true;
         }
 
         public BookSelect () {
+            /*
             popover.select_prototype.connect ((prototype) => {
                 selected_prototype = prototype;
                 this.set_active (false);
@@ -114,13 +83,12 @@ namespace Scripture.Widgets {
                 selected_book = book;
                 this.set_active (false);
             });
+            */
         }
     }
 
     public class BookSelectPopover : Gtk.Popover {
 
-        public signal void select_prototype (BookPrototype prototype);
-        public signal void select_book (Book book);
         private Gtk.Box box;
         private Gtk.ScrolledWindow scroll;
         private BookSelect btn;
@@ -148,18 +116,11 @@ namespace Scripture.Widgets {
 		    });
         }
 
-        public void set_books (ArrayList<Book> books) {
-            box.forall ((element) => box.remove (element));
-            foreach (Book book in books){
-                var item = new BookSelectItem.withBook (book, this, btn.local_names);
-                box.pack_start (item, false, false, 0);
-            }
-        }
 
         public void set_prototypes (ArrayList<BookPrototype> prototypes) {
             box.forall ((element) => box.remove (element));
             foreach (BookPrototype prototype in prototypes){
-                var item = new BookSelectItem.withPrototype (prototype, this, btn.local_names);
+                var item = new BookSelectItem (prototype, btn);
                 box.pack_start (item, false, false, 0);
             }
         }
@@ -168,22 +129,6 @@ namespace Scripture.Widgets {
 
     public class BookSelectItem : Gtk.Button {
 
-        private bool local_names = false;
-        private Book _book;
-        public Book book {
-            set {
-                _book = value;
-                if (local_names) {
-                    this.set_label (value.name);
-                } else {
-                    this.set_label (value.prototype.name);
-                }
-                stdout.printf("id: %i, name: %s, bible: %s (%s), prototype: %s (%i), chapters: %i\n", value.id, value.name, value.bible.name, book.bible.language.name, book.prototype.name, book.prototype.order, book.getChapterCount ());
-            }
-            get {
-                return _book;
-            }
-        }
         private BookPrototype _prototype;
         public BookPrototype prototype {
             set {
@@ -199,25 +144,16 @@ namespace Scripture.Widgets {
             get_style_context ().add_class ("book-select-item");
         }
 
-        public BookSelectItem.withPrototype (BookPrototype prototype, BookSelectPopover popover, bool local_names) {
-            this.local_names = local_names;
+        public BookSelectItem (BookPrototype prototype, BookSelect btn) {
             this.prototype = prototype;
             this.clicked.connect(() => {
-                popover.select_prototype(this.prototype);
+                btn.selected_prototype = this.prototype;
+                btn.selection (this.prototype);
             });
             Gtk.Label label = (Gtk.Label) this.get_child ();
             label.set_xalign (0);
         }
 
-        public BookSelectItem.withBook (Book book, BookSelectPopover popover, bool local_names) {
-            this.local_names = local_names;
-            this.book = book;
-            this.clicked.connect(() => {
-                popover.select_book(this.book);
-            });
-            Gtk.Label label = (Gtk.Label) this.get_child ();
-            label.set_xalign (0);
-        }
     }
 
 }

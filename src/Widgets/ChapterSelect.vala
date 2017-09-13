@@ -21,7 +21,7 @@ namespace Scripture.Widgets {
 
         public signal void selection (int val);
 
-        public ChapterSelectPopover popover;
+        private ChapterSelectPopover popover;
         private bool _empty;
         private bool empty {
             set {
@@ -133,19 +133,14 @@ namespace Scripture.Widgets {
             for (int i = 0; (i * 5) < max; i++){
                 for (int j = 0; j < 5 && j < (max - (i * 5)); j++){
                     int num = i*5+j+1;
-                    var option = new ChapterSelectItem (num);
+                    var option = new ChapterSelectItem (num, btn);
                     grid.attach (option, j, i);
-                    option.item_selected.connect ((n) => {
-                        this.btn.selected_num = n;
-                    });
                 }
             }
         }
     }
 
     public class ChapterSelectItem : Gtk.Button {
-
-        public signal void item_selected (int v);
 
         private int _val;
         public int val {
@@ -156,14 +151,14 @@ namespace Scripture.Widgets {
             get { return _val; }
         }
 
-        public ChapterSelectItem (int num){
+        public ChapterSelectItem (int num, ChapterSelect btn){
 
             val = num;
             get_style_context ().add_class ("chapter-select-item");
 
 
             this.clicked.connect(() => {
-                this.item_selected (this.val);
+                btn.selected_num = this.val;
             });
         }
     }

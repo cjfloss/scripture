@@ -22,62 +22,116 @@ namespace Scripture.Entities {
 
     public class BookPrototype {
 
-        public const string TABLE = "prototype";
         public int id;
-        public int order;
         public string name;
 
-        public BookPrototype.create (string name, int order, InsertQuery query = new InsertQuery (TABLE)) {
+        public BookPrototype (int id, string name) {
+            this.id = id;
             this.name = name;
-            this.order = order;
-
-            query.set_string("name", name);
-            query.set_int("ord", order);
-            query.execute();
-            this.id = query.last_id;
         }
 
         public BookPrototype.selectByName (string name) {
-            ArrayList<Condition> where = new ArrayList<Condition>();
-            where.add(new Condition("name", name));
-            var query = new Query.selectWhereEquals (TABLE, where);
-            ArrayList<ArrayList<string>> results = query.execute ();
-            if(results.size >= 1){
-                this.id = int.parse(results[0][0]);
-                this.name = results[0][1];
-                this.order = int.parse(results[0][2]);
-            } else {
+            bool found = false;
+            string[] prototypes = Scripture.Entities.BOOKPROTOTYPES;
+            for (int i = 0; i < prototypes.length; i++) {
+                if (prototypes[i] == name) {
+                    found = true;
+                    this.id = i+1;
+                    this.name = prototypes[i];
+                }
+            }
+            if (found == false) {
                 stderr.printf ("Prototype (name: %s) not found!", name);
             }
         }
 
         public BookPrototype.selectById (int id) {
-            var query = new Query.selectById(TABLE, id);
-            ArrayList<ArrayList<string>> results = query.execute ();
-            if(results.size == 1){
+            string[] prototypes = Scripture.Entities.BOOKPROTOTYPES;
+            if (prototypes.length >= id) {
                 this.id = id;
-                this.name = results[0][1];
-                this.order = int.parse(results[0][2]);
+                this.name = prototypes[id-1];
             } else {
                 stderr.printf ("Prototype (id: %i) not found!", id);
             }
         }
 
-        public BookPrototype.withParams (int id, string name, int order) {
-            this.id = id;
-            this.name = name;
-            this.order = order;
-        }
-
         public static ArrayList<BookPrototype> selectAll () {
-            var query = new Query.selectAll(TABLE);
-            ArrayList<BookPrototype> prototypes = new ArrayList<BookPrototype>();
-            ArrayList<ArrayList<string>> results = query.execute ();
-            foreach (ArrayList<string> row in results) {
-                prototypes.add(new BookPrototype.withParams(int.parse(row[0]), row[1], int.parse(row[2])));
+            string[] prototypes = Scripture.Entities.BOOKPROTOTYPES;
+            ArrayList<BookPrototype> output = new ArrayList<BookPrototype> ();
+            for (int i = 0; i < prototypes.length; i++) {
+                output.add (new BookPrototype (i+1, prototypes[i]));
             }
-            return prototypes;
+            return output;
         }
 
     }
+
+    public const string[] BOOKPROTOTYPES = {
+        "Genesis",
+        "Exodus",
+        "Leviticus",
+        "Numbers",
+        "Deuteronomy",
+        "Joshua",
+        "Judges",
+        "Ruth",
+        "1 Samuel",
+        "2 Samuel",
+        "1 Kings",
+        "2 Kings",
+        "1 Chronicles",
+        "2 Chronicles",
+        "Ezra",
+        "Nehemiah",
+        "Esther",
+        "Job",
+        "Psalms",
+        "Proverbs",
+        "Ecclesiastes",
+        "Song of Solomon",
+        "Isaiah",
+        "Jeremiah",
+        "Lamentations",
+        "Ezekiel",
+        "Daniel",
+        "Hosea",
+        "Joel",
+        "Amos",
+        "Obadiah",
+        "Jonah",
+        "Micah",
+        "Nahum",
+        "Habakkuk",
+        "Zephaniah",
+        "Haggai",
+        "Zechariah",
+        "Malachi",
+        "Matthew",
+        "Mark",
+        "Luke",
+        "John",
+        "Acts",
+        "Romans",
+        "1 Corinthians",
+        "2 Corinthians",
+        "Galatians",
+        "Ephesians",
+        "Philippians",
+        "Colossians",
+        "1 Thesalonians",
+        "2 Thesalonians",
+        "1 Timothy",
+        "2 Timothy",
+        "Titus",
+        "Philemon",
+        "Hebrews",
+        "James",
+        "1 Peter",
+        "2 Peter",
+        "1 John",
+        "2 John",
+        "3 John",
+        "Jude",
+        "Revelation"
+    };
 }

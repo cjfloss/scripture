@@ -20,15 +20,15 @@ namespace Scripture.Utils {
     public class Database {
 
         private static bool connected = false;
-        public const string NAME = "mydb.db";
+        public const string NAME = "bibles.db";
         private static Sqlite.Database _connection;
         public static Sqlite.Database connection {
             get {
                 if (!connected) {
-                    try{
+                    try {
                     open ();
-                    }catch(FileError e){
-                        stderr.printf("error loading db");
+                    } catch (FileError e) {
+                        stderr.printf ("error loading db");
                     }
                 }
                 return _connection;
@@ -39,22 +39,22 @@ namespace Scripture.Utils {
         }
 
         private static string get_db_path () {
-            string conf_dir =  GLib.Environment.get_user_config_dir ()+"/scripture/";
-            return conf_dir+Database.NAME;
+            string conf_dir = GLib.Environment.get_user_config_dir () + "/scripture/";
+            return conf_dir + Database.NAME;
         }
 
         public static void open () throws FileError {
             int state;
-            if ((state = Sqlite.Database.open_v2 (get_db_path(), out _connection)) == 1) {
-                stderr.printf("DB connection error!\n");
-                throw new FileError.ACCES ("Can't open database: "+_connection.errmsg ());
+            if ((state = Sqlite.Database.open_v2 (get_db_path (), out _connection)) == 1) {
+                stderr.printf ("DB connection error!\n");
+                throw new FileError.ACCES ("Can't open database: " + _connection.errmsg ());
             } else {
                 connected = true;
-                stdout.printf("Database connection success at %s! :)\n", get_db_path());
+                stdout.printf ("Database connection success at %s! :)\n", get_db_path ());
             }
 
-            if (!FileUtils.test (get_db_path(), FileTest.IS_REGULAR)) {
-                stderr.printf("Err: Database file not created!\n");
+            if (!FileUtils.test (get_db_path (), FileTest.IS_REGULAR)) {
+                stderr.printf ("Err: Database file not created!\n");
             }
 
             string errmsg;
@@ -63,7 +63,5 @@ namespace Scripture.Utils {
         		stderr.printf ("Create error: %s\n", errmsg);
         	}
         }
-
     }
-
 }
