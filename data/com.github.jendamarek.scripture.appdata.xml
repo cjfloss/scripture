@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2017 Your Name <you@email.com> -->
+<component type="desktop">
+  <id>com.github.jendamarek.scripture.desktop</id>
+  <metadata_license>CC0</metadata_license>
+  <name>Scripture</name>
+  <summary>Bible reading app</summary>
+  <description>
+    <p>Scripture allows you to study Bible offline from your Elementary desktop.</p>
+  </description>
+</component>

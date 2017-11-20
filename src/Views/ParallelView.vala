@@ -19,6 +19,7 @@ namespace Scripture.Views {
 
     using Scripture.Entities;
     using Scripture.Widgets;
+    using Scripture.Controllers;
     using Gee;
 
     public class ParallelView : Gtk.Paned {
@@ -62,6 +63,10 @@ namespace Scripture.Views {
             Scripture.Settings.get_instance ().changed.connect (() => {
                 set_background ();
             });
+            ReadingPosition position = ReadingPosition.get_instance ();
+            position.position_selected.connect (() => {
+                loadChapter (position.book, position.chapter);
+            });
         }
 
         private void set_background () {
@@ -71,6 +76,50 @@ namespace Scripture.Views {
             theme_class = theme.to_string ();
             toolbar1.get_style_context ().add_class (theme_class);
             toolbar2.get_style_context ().add_class (theme_class);
+        }
+
+        private void loadChapter (BookPrototype prototype, int num) {
+            bool cont1 = true;
+            bool cont2 = true;
+            Book? book1 = null;
+            Book? book2 = null;
+            Chapter? chapter1 = null;
+            Chapter? chapter2 = null;
+
+            try {
+                book1 = new Book.selectByBibleAndPrototype (ReadingPosition.get_instance ().primary_bible, prototype);
+            } catch (BookNotFoundError err) {
+                readingArea1.throw_error ("Book "+prototype.name+" not found in this translation.");
+                cont1 = false;
+            }
+            try {
+                book2 = new Book.selectByBibleAndPrototype (ReadingPosition.get_instance ().secondary_bible, prototype);
+            } catch (BookNotFoundError err) {
+                readingArea2.throw_error ("Book "+prototype.name+" not found in this translation.");
+                cont2 = false;
+            }
+            if (cont1) {
+                try {
+                    chapter1 = new Chapter.selectByBookAndNum (book1, num);
+                } catch (ChapterNotFoundError err) {
+                    readingArea1.throw_error ("Chapter not found in this translation.");
+                    cont1 = false;
+                }
+            }
+            if (cont1) {
+                readingArea1.content = chapter1.getVerses ();
+            }
+            if (cont2) {
+                try {
+                    chapter2 = new Chapter.selectByBookAndNum (book2, num);
+                } catch (ChapterNotFoundError err) {
+                    readingArea2.throw_error ("Chapter not found in this translation.");
+                    cont2 = false;
+                }
+            }
+            if (cont2) {
+                readingArea2.content = chapter2.getVerses ();
+            }
         }
     }
 }

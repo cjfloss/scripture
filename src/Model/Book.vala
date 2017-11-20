@@ -75,7 +75,7 @@ namespace Scripture.Entities {
             this.bible_id = bible_id;
         }
 
-        public Book.selectByBibleAndPrototype (Bible bible, BookPrototype prototype) {
+        public Book.selectByBibleAndPrototype (Bible bible, BookPrototype prototype) throws BookNotFoundError {
             ArrayList<Condition> where = new ArrayList<Condition>();
             where.add(new Condition.withInt("bible_id", bible.id));
             where.add(new Condition.withInt("prototype_id", prototype.id));
@@ -87,7 +87,7 @@ namespace Scripture.Entities {
                 this.prototype_id = int.parse(results[0][2]);
                 this.bible_id = int.parse(results[0][3]);
             } else {
-                stderr.printf ("Book not found!");
+                throw new BookNotFoundError.CODE_1A ("Book not found");
             }
         }
 
@@ -159,5 +159,9 @@ namespace Scripture.Entities {
             QueryBuilder.update (table, id, name, val);
         }
 */
+    }
+
+    errordomain BookNotFoundError {
+        CODE_1A
     }
 }

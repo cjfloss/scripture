@@ -53,7 +53,7 @@ namespace Scripture.Entities {
             }
         }
 
-        public Chapter.selectByBookAndNum (Book book, int num) {
+        public Chapter.selectByBookAndNum (Book book, int num) throws ChapterNotFoundError {
             ArrayList<Condition> where = new ArrayList<Condition>();
             where.add(new Condition.withInt("book_id", book.id));
             where.add(new Condition.withInt("number", num));
@@ -65,6 +65,7 @@ namespace Scripture.Entities {
                 this.book_id = int.parse(results[0][2]);
             } else {
                 stderr.printf ("Chapter (book: %s num: %i) not found!", book.name, id);
+                throw new ChapterNotFoundError.CODE_1A ("Chapter not found");
             }
         }
 
@@ -96,5 +97,9 @@ namespace Scripture.Entities {
             }
         }
 
+    }
+
+    errordomain ChapterNotFoundError {
+        CODE_1A
     }
 }

@@ -59,6 +59,7 @@ vala_precompile(VALA_C
    src/Model/Database/Database.vala
    src/Model/Database/Create.vala
    src/Controllers/Settings.vala
+   src/Controllers/ReadingPosition.vala
 
 PACKAGES
    gtk+-3.0

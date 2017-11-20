@@ -19,6 +19,7 @@ namespace Scripture.Widgets {
 
     using Gee;
     using Scripture.Entities;
+    using Scripture.Controllers;
 
     public class BookSelect : Gtk.ToggleButton {
 
@@ -74,6 +75,19 @@ namespace Scripture.Widgets {
         }
 
         public BookSelect () {
+
+            ReadingPosition position = ReadingPosition.get_instance ();
+            selected_prototype = position.book;
+
+            this.selection.connect ((prototype) => {
+                position.select_book (prototype);
+                this.set_active (false);
+            });
+
+            position.reseted.connect (() => {
+                this.selected_prototype = position.book;
+            });
+
             /*
             popover.select_prototype.connect ((prototype) => {
                 selected_prototype = prototype;
@@ -115,7 +129,6 @@ namespace Scripture.Widgets {
 			    }
 		    });
         }
-
 
         public void set_prototypes (ArrayList<BookPrototype> prototypes) {
             box.forall ((element) => box.remove (element));

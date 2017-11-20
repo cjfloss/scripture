@@ -25,13 +25,13 @@ class Scripture.Settings : Granite.Services.Settings {
     public double font_size { get; set; }
 
     public static Settings get_instance () {
-      if (instance == null) {
-          instance = new Settings ();
-      }
-      return instance;
+        if (instance == null) {
+            instance = new Settings ();
+        }
+        return instance;
     }
 
     private Settings () {
-      base ("com.github.jendamarek.scripture");
+        base ("com.github.jendamarek.scripture");
     }
 }

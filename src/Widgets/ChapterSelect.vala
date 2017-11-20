@@ -17,6 +17,8 @@
 
 namespace Scripture.Widgets {
 
+    using Scripture.Controllers;
+
     public class ChapterSelect : Gtk.ToggleButton {
 
         public signal void selection (int val);
@@ -54,16 +56,34 @@ namespace Scripture.Widgets {
             bind_property ("active", popover, "visible", GLib.BindingFlags.BIDIRECTIONAL);
             empty = true;
 
-            this.selection.connect (() => {
+            ReadingPosition position = ReadingPosition.get_instance ();
+            if(!position.empty_app) {
+                set_chapters(position.book.chapter_count);
+                selected_num = position.chapter;
+            }
+
+            this.selection.connect ((num) => {
+                position.select_chapter (num);
                 this.set_active (false);
             });
+
+            this.toggled.connect (() => {
+                if(this.active == false) {
+                    position.reset ();
+                }
+            });
+
+            position.book_selected.connect (() => {
+                set_chapters (position.next_book.chapter_count);
+                this.set_active (true);
+            });
+
         }
 
         public void set_chapters (int num) {
             if (num > 0){
                 empty = false;
                 popover.max = num;
-                selected_num = 1;
             } else {
                 empty = true;
             }

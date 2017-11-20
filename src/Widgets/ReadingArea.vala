@@ -22,6 +22,9 @@ namespace Scripture.Widgets {
 
     public class ReadingArea : WebKit.WebView {
 
+        private bool errored = false;
+        public string error_text = "";
+
         private string content_string;
         private ArrayList<Verse> _content;
         public ArrayList<Verse> content {
@@ -105,6 +108,19 @@ namespace Scripture.Widgets {
             run_javascript (sb.str, null);
         }
 
+        public void throw_error (string str) {
+            if(!errored) {
+                error_text = str;
+                errored = true;
+            }
+            string script = """
+                document.getElementById("main").innerHTML = `<div class="error">%s</div>`;
+            """;
+            var sb = new StringBuilder ();
+            sb.printf (script, str);
+            run_javascript (sb.str, null);
+        }
+
         private void _set_content (ArrayList<Verse> content = this.content) {
             this._content = content;
             content_string = "";
@@ -152,7 +168,11 @@ namespace Scripture.Widgets {
             } else {
                 run_javascript (remove, null);
             }
-            _set_content ();
+            if(errored) {
+                throw_error (error_text);
+            } else {
+                _set_content ();
+            }
         }
 
         private void _set_night_mode (bool mode) {
@@ -163,7 +183,11 @@ namespace Scripture.Widgets {
             } else {
                 run_javascript (remove, null);
             }
-            _set_content ();
+            if(errored) {
+                throw_error (error_text);
+            } else {
+                _set_content ();
+            }
         }
 
         private void _set_num_mode (Scripture.NumMode mode) {

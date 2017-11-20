@@ -85,14 +85,14 @@ public class Scripture.Window : Gtk.ApplicationWindow {
         buttonGrid.add (chapterSelect);
 
         /* Create search field */
-        var searchField = new Gtk.SearchEntry ();
+        // var searchField = new Gtk.SearchEntry ();
 
         /* Create menu */
         var appMenu = new Scripture.Widgets.AppMenu (this);
 
         hb.pack_start (buttonGrid);
         hb.pack_end (appMenu);
-        hb.pack_end (searchField);
+        // hb.pack_end (searchField);
 
         parallelView = new Scripture.Views.ParallelView ();
         singleView = new Scripture.Views.SingleView ();

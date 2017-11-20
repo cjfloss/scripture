@@ -18,6 +18,7 @@
 namespace Scripture.Views {
 
     using Scripture.Entities;
+    using Scripture.Controllers;
     using Scripture.Widgets;
     using Gee;
 
@@ -31,6 +32,33 @@ namespace Scripture.Views {
         }
 
         public SingleView () {
+            ReadingPosition position = ReadingPosition.get_instance ();
+            position.position_selected.connect (() => {
+                loadChapter (position.book, position.chapter);
+            });
+        }
+
+        private void loadChapter (BookPrototype prototype, int num) {
+            bool cont = true;
+            Book? book = null;
+            Chapter? chapter = null;
+            try {
+                book = new Book.selectByBibleAndPrototype (ReadingPosition.get_instance ().primary_bible, prototype);
+            } catch (BookNotFoundError err) {
+                readingArea.throw_error ("Book "+prototype.name+" not found in this translation.");
+                cont = false;
+            }
+            if (cont) {
+                try {
+                    chapter = new Chapter.selectByBookAndNum (book, num);
+                } catch (ChapterNotFoundError err) {
+                    readingArea.throw_error ("Chapter not found in this translation.");
+                    cont = false;
+                }
+            }
+            if (cont) {
+                readingArea.content = chapter.getVerses ();
+            }
         }
     }
 }
