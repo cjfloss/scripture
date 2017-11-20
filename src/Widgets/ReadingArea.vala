@@ -122,6 +122,7 @@ namespace Scripture.Widgets {
         }
 
         private void _set_content (ArrayList<Verse> content = this.content) {
+            errored = false;
             this._content = content;
             content_string = "";
             bool paragraph = false;
