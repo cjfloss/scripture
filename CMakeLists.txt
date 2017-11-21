@@ -22,6 +22,7 @@ pkg_check_modules(DEPS REQUIRED
                   granite
                   webkit2gtk-4.0>=2.14.1
                   sqlite3>=3.5.9
+                  libxml-2.0
                  )
 
 include (GSettings)
@@ -43,11 +44,14 @@ vala_precompile(VALA_C
    src/Widgets/ReadingArea.vala
    src/Widgets/AppMenu.vala
    src/Widgets/SettingsCombo.vala
+   src/Widgets/TranslationsList.vala
+   src/Widgets/TranslationItem.vala
    src/Widgets/Styles/View.vala
    src/Widgets/Styles/App.vala
    src/Views/ParallelView.vala
    src/Views/SingleView.vala
    src/Dialogs/PreferencesDialog.vala
+   src/Dialogs/TranslationsDialog.vala
    src/Model/Verse.vala
    src/Model/Chapter.vala
    src/Model/Bible.vala

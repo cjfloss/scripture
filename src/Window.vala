@@ -40,7 +40,12 @@ public class Scripture.Window : Gtk.ApplicationWindow {
       ///////////////////////////////////////////////////////////////////////////////////////////////////
       ////
       /**/    Language lang = new Language.create ("English");
+              Language lang2 = new Language.create ("English");
       /**/    Bible bible = new Bible.create ("King James Version", lang);
+              Bible bible2 = new Bible.create ("Second translation", lang2);
+              Bible bible3 = new Bible.create ("King James Version", lang);
+              Bible bible4 = new Bible.create ("Second translation", lang);
+
       /**/    BookPrototype gen_prototype = new BookPrototype.selectById (1);
       /**/    BookPrototype ex_prototype = new BookPrototype.selectById (2);
       /**/    BookPrototype lv_prototype = new BookPrototype.selectById (3);

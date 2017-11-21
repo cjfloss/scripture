@@ -36,6 +36,10 @@ namespace Scripture {
         background-color: rgba(0,0,0,0.1);
     }
 
+    .translations-dialog GtkScrolledWindow > * {
+        border: 1px solid rgba(200,200,200,1);
+    }
+
     .chapter-select-item {
         background: none;
         border-style: none;

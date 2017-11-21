@@ -79,6 +79,10 @@ namespace Scripture.Entities {
             return bibles;
         }
 
+        public void delete () {
+            Query.delete_by_id (Bible.TABLE, this.id);
+        }
+
         public ArrayList<Book> getBooks () {
             ArrayList<Condition> where = new ArrayList<Condition>();
             where.add(new Condition.withInt("bible_id", id));

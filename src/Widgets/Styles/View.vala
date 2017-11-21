@@ -78,6 +78,9 @@ namespace Scripture {
     body[data-theme='paper'] {
         background-color: rgb(255, 250, 230);
     }
+    .error {
+        color: #bbb;
+    }
 
 
 

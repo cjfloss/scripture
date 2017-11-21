@@ -43,7 +43,8 @@ namespace Scripture.Controllers {
         private ReadingPosition () {
             var bibles = Bible.selectAll ();
             if (bibles.size > 0) {
-                secondary_bible = primary_bible = bibles.get(0);
+                primary_bible = bibles[0];
+                secondary_bible = bibles[0];
                 empty_app = false;
             }
             book = new BookPrototype.selectById (1);

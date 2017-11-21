@@ -49,7 +49,7 @@ namespace Scripture.Widgets {
             appMenu.pack_start (preferencesItem);
             menuPopover.add (appMenu);
 
-            translationsItem.activate.connect (() => {
+            translationsItem.clicked.connect (() => {
                 this.openTranslations ();
             });
             preferencesItem.clicked.connect (() => {
@@ -64,7 +64,9 @@ namespace Scripture.Widgets {
         }
 
         private void openTranslations () {
-
+            var translations = new Scripture.Dialogs.Translations (window);
+            translations.show_all ();
+            this.set_active (false);
         }
 
         private void openPreferences () {

@@ -121,6 +121,16 @@ namespace Scripture.Utils {
             stm.reset ();
         }
 
+        public static void delete_by_id (string table, int id){
+            StringBuilder builder = new StringBuilder ();
+            builder.printf("DELETE FROM %s WHERE id = $ID;", table);
+            Sqlite.Statement stm = prepare_stmt (builder.str);
+            int id_pos = stm.bind_parameter_index ("$ID");
+            stm.bind_int (id_pos, id);
+            stm.step ();
+            stm.reset ();
+        }
+
         public static void update_string (string table, int id, string column, string val){
             StringBuilder builder = new StringBuilder ();
             builder.printf("UPDATE %s SET %s = $VAL WHERE id = $ID;", table, column);
