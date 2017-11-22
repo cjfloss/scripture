@@ -46,6 +46,7 @@ namespace Scripture.Dialogs {
                 var item = (TranslationItem) list.list.get_selected_row ().get_child ();
                 var position = ReadingPosition.get_instance ();
                 position.primary_bible = item.bible;
+                position.secondary_bible = item.bible;
                 position.position_selected ();
                 this.destroy ();
             });
@@ -55,7 +56,7 @@ namespace Scripture.Dialogs {
             delete_button.clicked.connect (() => {
                 var item = (TranslationItem) list.list.get_selected_row ().get_child ();
                 var bible = item.bible;
-                if (!item.selected) {
+                if (!item.selected && !item.secondary) {
                     var message_dialog = new Granite.MessageDialog.with_image_from_icon_name (
                          "Delete translation",
                          "Are you sure you want to delete "+bible.name+"?",
@@ -77,7 +78,7 @@ namespace Scripture.Dialogs {
                     var message_dialog2 = new Granite.MessageDialog.with_image_from_icon_name (
                          "Item in use",
                          "You cant delete "+bible.name+" because it's in use.",
-                         "edit-delete",
+                         "dialog-error",
                          Gtk.ButtonsType.CANCEL
                     );
                     message_dialog2.run ();
@@ -100,6 +101,8 @@ namespace Scripture.Dialogs {
         		filter.add_mime_type ("text/xml");
                 chooser.show_all ();
                 if (chooser.run () == Gtk.ResponseType.ACCEPT) {
+                    var import_dialog = new Scripture.Dialogs.Import(chooser.get_uri());
+                    import_dialog.show_all ();
                     stdout.printf("Soubor vybrán "+chooser.get_uri()+"\n");
                 }
                 chooser.destroy ();

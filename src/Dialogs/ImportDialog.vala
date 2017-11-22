@@ -18,10 +18,33 @@
 namespace Scripture.Dialogs {
 
     using Scripture.Controllers;
+    using Scripture.Entities;
 
     class Import : Gtk.Dialog {
-        public Import () {
 
+        construct {
+            title = "Importing";
+            set_default_size (630, 430);
+            resizable = false;
+            deletable = true;
+
+
+        }
+
+        public Import (string file_uri) {
+
+            var doc = Xml.Parser.parse_file (file_uri);
+            if (doc == null) {
+                stdout.printf("Not found!");
+	        }
+            Xml.XPath.Context cntx = new Xml.XPath.Context (doc);
+            Xml.XPath.Object* res = cntx.eval_expression ("/XMLBIBLE/INFORMATION/title");
+            if (res != null) {
+                Xml.Node* node = res->nodesetval->item (0);
+                Bible bible = new Bible.create (node->get_content (), new Language.selectByName ("English"));
+            } else {
+                stdout.printf("Not found2!");
+            }
         }
     }
 }

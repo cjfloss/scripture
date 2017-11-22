@@ -22,6 +22,7 @@ namespace Scripture.Widgets {
     class TranslationItem : Gtk.Box {
 
         public bool selected;
+        public bool secondary;
 
         public Bible bible;
 
@@ -60,8 +61,10 @@ namespace Scripture.Widgets {
             ReadingPosition position = ReadingPosition.get_instance ();
             if(bible.id == position.primary_bible.id){
                 select (true);
+            } else if (bible.id == position.secondary_bible.id) {
+                select_secondary (true);
             } else {
-                select (false);
+                select_secondary (false);
             }
         }
 
@@ -74,6 +77,18 @@ namespace Scripture.Widgets {
                     gtk_selected.clear ();
                 }
                 selected = false;
+            }
+        }
+        private void select_secondary (bool val) {
+            if(val) {
+                gtk_selected.set_from_icon_name ("selection-add", Gtk.IconSize.MENU);
+                selected = false;
+                secondary = true;
+            } else {
+                if (secondary = true) {
+                    gtk_selected.clear ();
+                }
+                secondary = false;
             }
         }
     }

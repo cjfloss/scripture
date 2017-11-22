@@ -52,6 +52,7 @@ vala_precompile(VALA_C
    src/Views/SingleView.vala
    src/Dialogs/PreferencesDialog.vala
    src/Dialogs/TranslationsDialog.vala
+   src/Dialogs/ImportDialog.vala
    src/Model/Verse.vala
    src/Model/Chapter.vala
    src/Model/Bible.vala
@@ -71,6 +72,7 @@ PACKAGES
    granite
    webkit2gtk-4.0
    sqlite3
+   libxml-2.0
 )
 
 add_executable(${EXEC_NAME} ${VALA_C})
