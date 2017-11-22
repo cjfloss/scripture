@@ -1,6 +1,3 @@
 # Scripture
-A Bible app for elementary OS.
-Still under developement and not much usable.
-#### Current state:
-- Model finished
-- Most of the view ready
+A Bible reading app for elementary OS. Uses Zefania XML format for importing translations. Single translation and parallel view.
+> Under development
